@@ -1,0 +1,85 @@
+# Example Configuration File
+# Complete geostatistical analysis configuration
+
+project:
+  name: "Alaska Gold Exploration Analysis"
+  output_dir: "./results/alaska_gold"
+  description: "Kriging interpolation of gold concentrations in Alaska stream sediments"
+
+data:
+  input_file: "data/AGDB4_text/Ag_geochem.txt"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "AU_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"  # Options: iqr, zscore, mad
+  outlier_threshold: 3.0
+  transform: "log"  # Options: log, boxcox, normal_score, null
+  handle_negatives: true
+
+variogram:
+  n_lags: 15
+  max_lag: null  # Auto-calculate if null
+  lag_tolerance: 0.5
+  models:  # Models to try
+    - spherical
+    - exponential
+    - gaussian
+  auto_fit: true
+  fit_method: "wls"  # Options: ols, wls, ml
+  direction: null  # For anisotropy (degrees)
+  tolerance: null  # Angular tolerance for anisotropy
+
+kriging:
+  method: "ordinary"  # Options: ordinary, simple, universal
+  drift_terms: null  # For universal kriging: ['x', 'y', 'x*y']
+  
+  neighborhood:
+    max_neighbors: 25
+    min_neighbors: 3
+    search_radius: null  # Auto if null
+    use_quadrant_search: false
+  
+  grid:
+    x_min: -180.0
+    x_max: -120.0
+    y_min: 50.0
+    y_max: 72.0
+    resolution: 0.1
+  
+  compute_variance: true
+
+validation:
+  cross_validation: true
+  n_folds: 5
+  method: "kfold"  # Options: kfold, loo, spatial
+  metrics:
+    - rmse
+    - mae
+    - r2
+  stratified: false
+
+visualization:
+  style: "minimalist"  # Options: minimalist, default, seaborn
+  plots:
+    - variogram
+    - kriging_map
+    - variance_map
+    - cross_validation
+    - histogram
+  colormap: "viridis"
+  dpi: 300
+  figsize: [12, 10]
+  contour_levels: 20
+
+output:
+  save_predictions: true
+  save_variance: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv
+  compression: false

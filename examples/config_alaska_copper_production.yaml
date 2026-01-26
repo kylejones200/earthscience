@@ -1,0 +1,85 @@
+# Example 2: Alaska Copper Exploration - Production Analysis
+# Comprehensive analysis with all features enabled
+
+project:
+  name: "Alaska Copper - Production Analysis"
+  output_dir: "./results/alaska_copper_production"
+  description: "Comprehensive geostatistical analysis of copper concentrations in Alaska"
+
+data:
+  input_file: "data/processed/alaska_cu.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Cu_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"
+  outlier_threshold: 2.5  # More conservative
+  transform: "log"
+  handle_negatives: true
+
+variogram:
+  n_lags: 20  # More lags for better resolution
+  max_lag: null
+  lag_tolerance: 0.5
+  models:
+    - spherical
+    - exponential
+    - gaussian
+  auto_fit: true
+  fit_method: "wls"
+
+kriging:
+  method: "ordinary"
+  
+  neighborhood:
+    max_neighbors: 30
+    min_neighbors: 5
+    search_radius: null
+    use_quadrant_search: false
+  
+  grid:
+    x_min: -170.0
+    x_max: -135.0
+    y_min: 55.0
+    y_max: 70.0
+    resolution: 0.25  # Higher resolution (~ 25 km)
+  
+  compute_variance: true
+
+validation:
+  cross_validation: true
+  n_folds: 10  # More folds for robustness
+  method: "kfold"
+  metrics:
+    - rmse
+    - mae
+    - r2
+    - mse
+  stratified: false
+
+visualization:
+  style: "minimalist"
+  plots:
+    - variogram
+    - kriging_map
+    - variance_map
+    - cross_validation
+    - histogram
+    - scatter_actual_predicted
+  colormap: "copper"
+  dpi: 300
+  figsize: [14, 12]
+  contour_levels: 25
+
+output:
+  save_predictions: true
+  save_variance: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv
+    - npy
+  compression: false

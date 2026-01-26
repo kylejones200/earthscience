@@ -1,0 +1,76 @@
+# Example 4: Alaska Silver - High Resolution Regional Study
+# Focused on a specific high-potential region
+
+project:
+  name: "Alaska Silver - Southeast Region"
+  output_dir: "./results/alaska_silver_southeast"
+  description: "High-resolution silver analysis for Southeast Alaska panhandle"
+
+data:
+  input_file: "data/processed/alaska_ag.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Ag_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"
+  outlier_threshold: 3.0
+  transform: "log"
+  handle_negatives: true
+
+variogram:
+  n_lags: 15
+  models:
+    - spherical
+    - exponential
+  auto_fit: true
+  fit_method: "wls"
+
+kriging:
+  method: "ordinary"
+  
+  neighborhood:
+    max_neighbors: 25
+    min_neighbors: 5
+    search_radius: 100000  # 100 km search radius
+  
+  grid:
+    # Southeast Alaska panhandle
+    x_min: -140.0
+    x_max: -130.0
+    y_min: 54.5
+    y_max: 60.0
+    resolution: 0.1  # High resolution (~10 km)
+  
+  compute_variance: true
+
+validation:
+  cross_validation: true
+  n_folds: 5
+  method: "kfold"
+  metrics:
+    - rmse
+    - mae
+    - r2
+
+visualization:
+  style: "minimalist"
+  plots:
+    - variogram
+    - kriging_map
+    - variance_map
+    - cross_validation
+    - histogram
+  colormap: "Greys_r"  # Grey scale for silver
+  dpi: 300
+  contour_levels: 20
+
+output:
+  save_predictions: true
+  save_variance: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv

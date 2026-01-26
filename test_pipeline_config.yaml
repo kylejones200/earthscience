@@ -1,0 +1,57 @@
+# Test Config - Small Dataset
+# Quick test with 1000 samples to verify pipeline works
+
+project:
+  name: "Pipeline Test"
+  output_dir: "./results/test_pipeline"
+
+data:
+  input_file: "data/processed/alaska_au_test.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Au_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"
+  outlier_threshold: 3.0
+  transform: "log"
+
+variogram:
+  n_lags: 10
+  models:
+    - spherical
+  auto_fit: true
+
+kriging:
+  method: "ordinary"
+  grid:
+    x_min: -160.0
+    x_max: -150.0
+    y_min: 60.0
+    y_max: 65.0
+    resolution: 2.0  # Very coarse for speed
+
+validation:
+  cross_validation: true
+  n_folds: 3
+  metrics:
+    - rmse
+    - mae
+
+visualization:
+  style: "minimalist"
+  plots:
+    - variogram
+    - kriging_map
+    - histogram
+  colormap: "viridis"
+  dpi: 150
+
+output:
+  save_predictions: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv

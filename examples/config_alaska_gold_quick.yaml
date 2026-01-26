@@ -1,0 +1,71 @@
+# Example 1: Alaska Gold Exploration Analysis
+# Quick minimal analysis of gold concentrations
+
+project:
+  name: "Alaska Gold - Quick Analysis"
+  output_dir: "./results/alaska_gold_quick"
+  description: "Rapid kriging interpolation of gold in Alaska stream sediments"
+
+data:
+  input_file: "data/processed/alaska_au.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Au_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"
+  outlier_threshold: 3.0
+  transform: "log"
+  handle_negatives: true
+
+variogram:
+  n_lags: 15
+  models:
+    - spherical
+    - exponential
+  auto_fit: true
+
+kriging:
+  method: "ordinary"
+  
+  neighborhood:
+    max_neighbors: 25
+    min_neighbors: 5
+  
+  grid:
+    x_min: -180.0
+    x_max: -130.0
+    y_min: 52.0
+    y_max: 72.0
+    resolution: 0.5  # degrees (~ 50 km)
+  
+  compute_variance: true
+
+validation:
+  cross_validation: true
+  n_folds: 5
+  metrics:
+    - rmse
+    - mae
+    - r2
+
+visualization:
+  style: "minimalist"
+  plots:
+    - variogram
+    - kriging_map
+    - variance_map
+    - cross_validation
+    - histogram
+  colormap: "YlOrRd"  # Yellow-Orange-Red for gold
+  dpi: 300
+
+output:
+  save_predictions: true
+  save_variance: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv

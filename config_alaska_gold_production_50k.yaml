@@ -1,0 +1,74 @@
+# Alaska Gold - Full Production Run
+# 50,000 samples - production scale analysis
+
+project:
+  name: "Alaska Gold - Production Scale (50K samples)"
+  output_dir: "./results/alaska_gold_production"
+  description: "Production-scale kriging interpolation of Alaska gold concentrations"
+
+data:
+  input_file: "data/processed/alaska_au_50k.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Au_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"
+  outlier_threshold: 3.0
+  transform: "log"
+  handle_negatives: true
+
+variogram:
+  n_lags: 15
+  max_lag: 10.0  # Limit to reasonable distance
+  models:
+    - spherical
+    - exponential
+  auto_fit: true
+  fit_method: "wls"
+
+kriging:
+  method: "ordinary"
+  
+  neighborhood:
+    max_neighbors: 25
+    min_neighbors: 5
+    search_radius: 5.0  # 5 degrees (~500 km)
+  
+  grid:
+    x_min: -170.0
+    x_max: -140.0
+    y_min: 55.0
+    y_max: 70.0
+    resolution: 1.0  # 1 degree resolution for speed
+  
+  compute_variance: true
+
+validation:
+  cross_validation: true
+  n_folds: 5
+  metrics:
+    - rmse
+    - mae
+    - r2
+
+visualization:
+  style: "minimalist"
+  plots:
+    - variogram
+    - kriging_map
+    - variance_map
+    - cross_validation
+    - histogram
+  colormap: "YlOrRd"
+  dpi: 300
+
+output:
+  save_predictions: true
+  save_variance: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv

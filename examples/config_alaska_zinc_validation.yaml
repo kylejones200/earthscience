@@ -1,0 +1,63 @@
+# Example 3: Alaska Multi-Element Comparison
+# Minimal config for rapid comparison of multiple elements
+
+project:
+  name: "Alaska Zinc - Validation Study"
+  output_dir: "./results/alaska_zinc_validation"
+  description: "Cross-validation focused analysis of zinc"
+
+data:
+  input_file: "data/processed/alaska_zn.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Zn_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "zscore"
+  outlier_threshold: 3.0
+  transform: "log"
+
+variogram:
+  n_lags: 15
+  models:
+    - spherical
+  auto_fit: true
+
+kriging:
+  method: "ordinary"
+  grid:
+    x_min: -165.0
+    x_max: -140.0
+    y_min: 58.0
+    y_max: 68.0
+    resolution: 0.5
+
+validation:
+  cross_validation: true
+  n_folds: 10
+  method: "kfold"
+  metrics:
+    - rmse
+    - mae
+    - r2
+    - mape
+  stratified: true
+
+visualization:
+  style: "minimalist"
+  plots:
+    - cross_validation
+    - scatter_actual_predicted
+    - histogram
+    - qq_plot
+  colormap: "viridis"
+  dpi: 300
+
+output:
+  save_predictions: false  # Don't need predictions for validation study
+  save_variance: false
+  save_plots: true
+  save_report: true
+  formats:
+    - png

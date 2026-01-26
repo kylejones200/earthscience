@@ -1,0 +1,23 @@
+# Optional dependencies for geospatial functionality
+# These have heavy C/system dependencies and may be difficult to install
+# Install with: pip install -r requirements-optional.txt
+
+# First install base requirements
+-r requirements.txt
+
+# Geospatial libraries (require GDAL, PROJ, GEOS)
+rasterio>=1.3.0
+geopandas>=0.13.0
+fiona>=1.9.0
+shapely>=2.0.0
+
+# Note: You may need to install system dependencies first:
+# 
+# macOS:
+#   brew install gdal proj geos
+# 
+# Ubuntu/Debian:
+#   sudo apt-get install gdal-bin libgdal-dev libproj-dev libgeos-dev
+# 
+# Then install Python packages:
+#   pip install -r requirements-optional.txt

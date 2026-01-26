@@ -1,0 +1,75 @@
+# Alaska Gold - Full End-to-End Production Run
+# 10,000 samples for demonstration
+
+project:
+  name: "Alaska Gold - Full Production Pipeline"
+  output_dir: "./results/alaska_gold_full_demo"
+  description: "Complete end-to-end analysis with real Alaska gold data"
+
+data:
+  input_file: "data/processed/alaska_au_10k.csv"
+  x_column: "LONGITUDE"
+  y_column: "LATITUDE"
+  z_column: "Au_PPM"
+
+preprocessing:
+  remove_outliers: true
+  outlier_method: "iqr"
+  outlier_threshold: 3.0
+  transform: "log"
+  handle_negatives: true
+
+variogram:
+  n_lags: 15
+  max_lag: null  # Auto-calculate
+  models:
+    - spherical
+    - exponential
+    - gaussian
+  auto_fit: true
+  fit_method: "wls"
+
+kriging:
+  method: "ordinary"
+  
+  neighborhood:
+    max_neighbors: 25
+    min_neighbors: 5
+  
+  grid:
+    x_min: -170.0
+    x_max: -140.0
+    y_min: 55.0
+    y_max: 70.0
+    resolution: 0.5  # 0.5 degree resolution (~50 km)
+  
+  compute_variance: true
+
+validation:
+  cross_validation: true
+  n_folds: 5
+  metrics:
+    - rmse
+    - mae
+    - r2
+
+visualization:
+  style: "minimalist"
+  plots:
+    - variogram
+    - kriging_map
+    - variance_map
+    - cross_validation
+    - histogram
+  colormap: "YlOrRd"
+  dpi: 300
+  figsize: [14, 12]
+
+output:
+  save_predictions: true
+  save_variance: true
+  save_plots: true
+  save_report: true
+  formats:
+    - png
+    - csv
