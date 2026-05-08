@@ -199,7 +199,7 @@ for i, col1 in enumerate(log_cols):
                                transform=ax.transAxes, fontsize=8,
                                verticalalignment='top',
                                bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-                except:
+                except (KeyError, TypeError, AttributeError):
                     pass
             
             if j == 0:
