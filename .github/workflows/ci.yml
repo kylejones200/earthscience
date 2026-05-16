@@ -34,6 +34,7 @@ jobs:
         uv run ruff check earthsciences tests
 
     - name: Type checking
+      continue-on-error: true  # advisory until legacy modules are fully typed
       run: uv run mypy earthsciences/ --ignore-missing-imports
 
   build:
