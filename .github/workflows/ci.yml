@@ -32,7 +32,6 @@ jobs:
         uv run black --check earthsciences tests
         uv run isort --check-only earthsciences tests
         uv run ruff check earthsciences tests
-        uv run flake8 earthsciences tests --max-line-length=100
 
     - name: Type checking
       run: uv run mypy earthsciences/ --ignore-missing-imports
