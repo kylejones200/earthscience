@@ -28,18 +28,18 @@ variogram:
 
 kriging:
   method: "ordinary"
-  
+
   neighborhood:
     max_neighbors: 25
     min_neighbors: 5
-  
+
   grid:
     x_min: -180.0
     x_max: -130.0
     y_min: 52.0
     y_max: 72.0
     resolution: 0.5  # degrees (~ 50 km)
-  
+
   compute_variance: true
 
 validation:

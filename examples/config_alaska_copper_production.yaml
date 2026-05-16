@@ -32,20 +32,20 @@ variogram:
 
 kriging:
   method: "ordinary"
-  
+
   neighborhood:
     max_neighbors: 30
     min_neighbors: 5
     search_radius: null
     use_quadrant_search: false
-  
+
   grid:
     x_min: -170.0
     x_max: -135.0
     y_min: 55.0
     y_max: 70.0
     resolution: 0.25  # Higher resolution (~ 25 km)
-  
+
   compute_variance: true
 
 validation:

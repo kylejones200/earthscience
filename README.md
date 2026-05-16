@@ -1,122 +1,133 @@
-# Earth Sciences Recipes for Python
+# earthsciences
 
-**ALPHA VERSION 0.3.0 - NOT PRODUCTION READY**
+A Python toolkit for geoscience data analysis: statistics, time series, geostatistics, geochemistry, geochronology, and related domains. Built on NumPy and SciPy with reproducible workflows and tested implementations.
 
-A modern Python library for earth sciences data analysis, providing algorithms for common analysis tasks.
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/kylejones200/earthsciences/actions/workflows/ci.yml/badge.svg)](https://github.com/kylejones200/earthsciences/actions/workflows/ci.yml)
 
-**Status:** This is an early alpha version under active development. Not all functions have been validated, some features are incomplete, and performance is not optimized. Use with caution and validate results.
+> **Status:** Active development (v0.3). APIs may change between minor releases. Validate critical results against independent methods before publication or operational use.
 
-## Overview
+## Features
 
-This library provides algorithms for common data analysis tasks in earth sciences, including:
+| Domain | Capabilities |
+|--------|----------------|
+| **Statistics** | Descriptive stats, regression, hypothesis tests, extreme values, resampling |
+| **Time series** | Spectral analysis, filtering, wavelets, changepoint detection |
+| **Spatial** | Variograms, ordinary/universal kriging, IDW/RBF interpolation, spatial autocorrelation |
+| **Multivariate** | PCA, clustering, classification, compositional data |
+| **Directional** | Circular and spherical statistics, paleomagnetics |
+| **Geochronology** | Decay systems, isochrons, U–Pb, radiocarbon |
+| **Geophysics & more** | Gravity, magnetics, seismic, petroleum, hydrogeology, imaging |
 
-- **Univariate & Bivariate Statistics** - Descriptive statistics, distributions, hypothesis testing, regression
-- **Time-Series Analysis** - Spectral analysis, filtering, wavelets, Lomb-Scargle periodograms
-- **Signal Processing** - FFT, filtering, convolution, system analysis
-- **Spatial Data Analysis** - Kriging, variogram modeling, interpolation, point distributions
-- **Image Processing** - Image manipulation, enhancement, satellite image analysis
-- **Multivariate Analysis** - PCA, clustering, ICA, dimensionality reduction
-- **Directional Data** - Circular and spherical statistics
-- **Geochronology** - Radioactive decay, radiometric dating methods
-- **Geophysics** - Gravity, magnetic, and seismic data processing
-- **Petroleum** - Petrophysics and production decline analysis
-- **Hydrogeology** - Aquifer testing and well hydraulics
-- **Seismology** - Earthquake analysis and waveform processing
+Config-driven geostatistical pipelines are available via the CLI (`earthsciences run`).
 
 ## Installation
 
+Requires **Python 3.12+**. [uv](https://docs.astral.sh/uv/) is recommended for reproducible installs.
+
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/kylejones200/earthsciences.git
+cd earthsciences
+
+uv sync                  # runtime dependencies
+uv sync --extra dev      # tests, linting, notebooks
+uv sync --extra full     # optional: seaborn, astropy, spectrum
 ```
 
-## Quick Start
+With pip:
+
+```bash
+pip install -e ".[dev]"
+```
+
+## Quick example
 
 ```python
+import numpy as np
 import earthsciences as es
 
-# Univariate statistics
-data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# Descriptive statistics
+data = np.random.randn(200)
 stats = es.statistics.descriptive_stats(data)
-print(stats)
 
-# Time-series analysis
-t, signal = es.timeseries.generate_test_signal()
-spectrum = es.timeseries.power_spectrum(signal)
+# Variogram + kriging
+rng = np.random.default_rng(42)
+x, y = rng.uniform(0, 10, 40), rng.uniform(0, 10, 40)
+z = np.sin(x / 2) + np.cos(y / 2) + rng.normal(0, 0.1, 40)
 
-# Spatial analysis
-variogram = es.spatial.compute_variogram(x, y, values)
-interpolated = es.spatial.kriging(x, y, values, grid_x, grid_y)
+lags, gamma, n_pairs = es.spatial.compute_variogram(x, y, z)
+fit = es.spatial.fit_variogram_model(lags, gamma, n_pairs=n_pairs)
 
-# Geochronology
-from earthsciences.geochronology import radioactive_decay, DECAY_CONSTANTS
-age = radioactive_decay(N0=100, t=5730, half_life=5730)
+grid_x, grid_y = np.meshgrid(np.linspace(0, 10, 40), np.linspace(0, 10, 40))
+surface = es.spatial.ordinary_kriging(
+    x, y, z, grid_x, grid_y, fit["variogram_func"]
+)
 ```
 
-## Structure
+## CLI workflow
 
+```bash
+# Create a config from a template
+uv run earthsciences init --template minimal -o analysis.yaml
+
+# Run variogram → kriging → validation pipeline
+uv run earthsciences run --config configs/demos/config_complete_demo.yaml
 ```
-earthsciences/
-├── __init__.py
-├── statistics/         # Statistical analysis
-├── timeseries/         # Time-series and signal processing
-├── spatial/            # Spatial data analysis
-├── multivariate/       # Multivariate analysis
-├── directional/        # Circular and spherical statistics
-├── geochronology/      # Radiometric dating
-├── geophysics/         # Gravity, magnetic, seismic
-├── petroleum/          # Petrophysics and production
-├── hydrogeology/       # Groundwater analysis
-├── seismology/         # Earthquake analysis
-└── utils/              # Common utilities and helpers
-```
+
+See [`configs/README.md`](configs/README.md) and [`examples/README_CONFIG_EXAMPLES.md`](examples/README_CONFIG_EXAMPLES.md).
+
+## Documentation
+
+- **Online:** [https://kylejones200.github.io/earthscience/](https://kylejones200.github.io/earthscience/) (MkDocs on GitHub Pages)
+- **Local:** `uv sync --extra docs && uv run mkdocs serve`
 
 ## Examples
 
-See the `examples/` directory for Python scripts and Jupyter notebooks demonstrating each module.
-
-## Requirements
-
-- Python 3.12+
-- NumPy
-- SciPy
-- Matplotlib
-- Pandas
-- Scikit-learn
-- Scikit-image
-- PyWavelets
-
-See `requirements.txt` for full list.
-
-## Known Limitations
-
-- Not all functions validated - some implementations need verification
-- Some functions not fully implemented (will raise NotImplementedError)
-- Performance not optimized - kriging and spatial operations may be slow
-- Educational project - validate results before use in research
-
-## Testing
+| Path | Content |
+|------|---------|
+| [`examples/tutorials/`](examples/tutorials/) | Domain tutorials (`05_geochronology.py`, …) |
+| [`examples/geochem_*.py`](examples/) | Alaska geochemistry workflow |
+| [`examples/geochronology_metamorphic_terrane.py`](examples/geochronology_metamorphic_terrane.py) | Geochronology case study |
 
 ```bash
-# Run test suite
-pytest tests/ -v
-
-# Run with coverage
-pytest tests/ --cov=earthsciences --cov-report=html
+cd examples/tutorials && uv run python 05_geochronology.py
+cd examples && uv run python geochem_00_quickstart.py
 ```
 
-Current test coverage: 232 tests passing across core modules.
+See [`examples/README.md`](examples/README.md) and [`QUICKSTART.md`](QUICKSTART.md).
+
+## Development
+
+```bash
+uv sync --extra dev
+pre-commit install          # black, isort, ruff on every commit
+make test                   # pytest + coverage gate (≥30%)
+make lint
+```
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Publishing
+
+Tag a release to build and publish to PyPI (requires [trusted publishing](https://docs.pypi.org/trusted-publishers/) configured for this repo):
+
+```bash
+git tag v0.3.0
+git push origin v0.3.0
+```
+
+## Project layout
+
+```
+earthsciences/     # Library source
+tests/             # Pytest suite
+examples/          # Scripts, notebooks, tutorial configs
+configs/           # Pipeline YAML (demos & smoke tests)
+```
+
+Dependencies are locked in `uv.lock`; runtime requirements are declared in `pyproject.toml`.
 
 ## License
 
-MIT License - See LICENSE file for details.
-
-## Contributing
-
-This is an alpha-stage educational project. Contributions welcome:
-
-- Validate functions and add tests
-- Add missing implementations
-- Improve performance (especially spatial methods)
-- Fix bugs and improve documentation
-
-Please include tests with any contributions.
+MIT — see [LICENSE](LICENSE).

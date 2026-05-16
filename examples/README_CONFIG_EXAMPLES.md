@@ -307,4 +307,4 @@ python -m earthsciences.cli summarize examples/config_alaska_gold_quick.yaml
 
 ---
 
-**Questions or issues?** Check the main `CONFIG_GUIDE.md` or `KNOWN_ISSUES.md`
+**Questions or issues?** Open a [GitHub issue](https://github.com/kylejones200/earthsciences/issues) or see [`configs/README.md`](../configs/README.md).

@@ -5,9 +5,9 @@ Functions for processing satellite imagery, microscopic images, and
 digital elevation models.
 """
 
-from .ndvi import *
-from .enhancement import *
 from .analysis import *
+from .enhancement import *
+from .ndvi import *
 
 __all__ = [
     # NDVI and vegetation indices
@@ -18,7 +18,6 @@ __all__ = [
     "nbr",
     "gndvi",
     "msavi",
-    
     # Image enhancement
     "histogram_equalization",
     "contrast_stretch",
@@ -31,7 +30,6 @@ __all__ = [
     "calculate_toa_reflectance",
     "pan_sharpen",
     "cloud_mask",
-    
     # Advanced analysis
     "grain_size_distribution",
     "shape_analysis",

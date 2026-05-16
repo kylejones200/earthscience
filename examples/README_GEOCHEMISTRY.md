@@ -58,7 +58,7 @@ Location: `data/AGDB4_text/`
 - `linear_regression()`
 - `bootstrap_confidence_interval()`
 
-**Output:** 
+**Output:**
 - `geochem_02_bivariate.png`
 - `geochem_02_correlation_matrix.png`
 
@@ -219,7 +219,7 @@ threshold = np.percentile(data['Cu'], 95)
 anomalies = data[data['Cu'] > threshold]
 
 # Map hot spots
-plt.scatter(data['LONGITUDE'], data['LATITUDE'], 
+plt.scatter(data['LONGITUDE'], data['LATITUDE'],
            c=data['Cu'], cmap='hot')
 ```
 
@@ -248,7 +248,7 @@ variogram = compute_variogram(x, y, values)
 params = fit_variogram_model(lags, semivariance)
 
 # Interpolate
-grid_values = ordinary_kriging(x, y, values, grid_x, grid_y, 
+grid_values = ordinary_kriging(x, y, values, grid_x, grid_y,
                                variogram_func)
 ```
 

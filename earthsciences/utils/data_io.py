@@ -6,14 +6,12 @@ Essential file I/O functions for common earth sciences formats.
 
 import numpy as np
 import pandas as pd
-from pathlib import Path
-from typing import Dict, Optional, Union
 
 
-def load_csv(filepath, skiprows=0, delimiter=',', names=None):
+def load_csv(filepath, skiprows=0, delimiter=",", names=None):
     """
     Load CSV file.
-    
+
     Parameters
     ----------
     filepath : str
@@ -24,7 +22,7 @@ def load_csv(filepath, skiprows=0, delimiter=',', names=None):
         Column delimiter
     names : list, optional
         Column names
-        
+
     Returns
     -------
     DataFrame
@@ -35,7 +33,7 @@ def load_csv(filepath, skiprows=0, delimiter=',', names=None):
 def save_csv(data, filepath, header=True, index=False):
     """
     Save data to CSV.
-    
+
     Parameters
     ----------
     data : DataFrame or ndarray
@@ -55,12 +53,12 @@ def save_csv(data, filepath, header=True, index=False):
 def load_xyz(filepath):
     """
     Load XYZ format data.
-    
+
     Parameters
     ----------
     filepath : str
         Path to XYZ file
-        
+
     Returns
     -------
     dict
@@ -68,16 +66,16 @@ def load_xyz(filepath):
     """
     data = np.loadtxt(filepath)
     return {
-        'x': data[:, 0],
-        'y': data[:, 1],
-        'z': data[:, 2] if data.shape[1] > 2 else None,
+        "x": data[:, 0],
+        "y": data[:, 1],
+        "z": data[:, 2] if data.shape[1] > 2 else None,
     }
 
 
 def save_xyz(x, y, z, filepath):
     """
     Save data in XYZ format.
-    
+
     Parameters
     ----------
     x, y : array_like
@@ -91,13 +89,13 @@ def save_xyz(x, y, z, filepath):
         data = np.column_stack([x, y, z])
     else:
         data = np.column_stack([x, y])
-    np.savetxt(filepath, data, fmt='%.6f')
+    np.savetxt(filepath, data, fmt="%.6f")
 
 
 def save_numpy(data, filepath):
     """
     Save data in NumPy format (.npy or .npz).
-    
+
     Parameters
     ----------
     data : ndarray or dict
@@ -114,17 +112,17 @@ def save_numpy(data, filepath):
 def load_numpy(filepath):
     """
     Load NumPy format data.
-    
+
     Parameters
     ----------
     filepath : str
         Path to .npy or .npz file
-        
+
     Returns
     -------
     ndarray or dict
     """
-    if filepath.endswith('.npz'):
+    if filepath.endswith(".npz"):
         loaded = np.load(filepath)
         return {key: loaded[key] for key in loaded.files}
     else:

@@ -6,9 +6,9 @@ for orientation and directional data.
 """
 
 from .circular import *
-from .spherical import *
 from .orientation_analysis import *
 from .paleomagnetic import *
+from .spherical import *
 
 __all__ = [
     # Circular statistics
@@ -22,7 +22,6 @@ __all__ = [
     "kuiper_test",
     "wheeler_watson_test",
     "angular_distance",
-    
     # Spherical statistics
     "spherical_mean",
     "spherical_variance",
@@ -39,12 +38,10 @@ __all__ = [
     "kent_pdf",
     "kent_mean_direction",
     "kent_kappa",
-    
     # Orientation analysis
     "orientation_tensor",
     "fabric_strength",
     "pole_plot_data",
-    
     # Paleomagnetic
     "fisher_statistics",
     "declination_inclination_to_cartesian",

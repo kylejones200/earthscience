@@ -47,6 +47,7 @@ venv.bak/
 .pytest_cache/
 .coverage
 htmlcov/
+site/
 .tox/
 .nox/
 .hypothesis/
@@ -80,6 +81,12 @@ cython_debug/
 # Results and experiments (generated outputs)
 results/
 experiments/
+homework/
+
+# Example / pipeline outputs (regenerate with scripts)
+examples/*.png
+examples/tutorials/*.png
+!examples/.gitkeep
 
 # Environment variables
 .env

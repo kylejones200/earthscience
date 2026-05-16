@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: uv sync --extra dev --frozen
+
+    - name: Run tests
+      run: uv run pytest tests/ -v --tb=short --cov=earthsciences --cov-report=term-missing --cov-fail-under=30
+
+    - name: Lint
+      run: |
+        uv run black --check earthsciences tests
+        uv run isort --check-only earthsciences tests
+        uv run ruff check earthsciences tests
+        uv run flake8 earthsciences tests --max-line-length=100
+
+    - name: Type checking
+      run: uv run mypy earthsciences/ --ignore-missing-imports
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        python-version: "3.12"
+
+    - name: Build package
+      run: uv build
+
+    - name: Check package
+      run: |
+        uv tool run twine check dist/*

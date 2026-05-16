@@ -51,14 +51,14 @@ pip install seaborn Pillow astropy spectrum
 
 For geospatial examples (if they exist):
 ```bash
-pip install -r requirements-optional.txt
+uv sync --extra geospatial
 ```
 
 ## Creating Your Own Scripts
 
 When creating your own analysis scripts, make sure to:
 
-1. Install the package: `pip install -e .`
+1. Install the package: `uv sync` (from the repo root)
 2. Import normally: `import earthsciences as es`
 3. No need for `sys.path` hacks!
 

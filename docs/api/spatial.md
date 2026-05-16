@@ -1,0 +1,3 @@
+# spatial
+
+::: earthsciences.spatial

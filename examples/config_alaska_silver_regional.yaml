@@ -29,12 +29,12 @@ variogram:
 
 kriging:
   method: "ordinary"
-  
+
   neighborhood:
     max_neighbors: 25
     min_neighbors: 5
     search_radius: 100000  # 100 km search radius
-  
+
   grid:
     # Southeast Alaska panhandle
     x_min: -140.0
@@ -42,7 +42,7 @@ kriging:
     y_min: 54.5
     y_max: 60.0
     resolution: 0.1  # High resolution (~10 km)
-  
+
   compute_variance: true
 
 validation:

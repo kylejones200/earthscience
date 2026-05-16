@@ -1,140 +1,65 @@
-# Quick Start Guide
+# Quick start
 
-## Installation
+## Install
 
 ```bash
-cd "earth science"
-pip install -r requirements.txt
+uv sync
+uv sync --extra dev   # optional: pytest, black, jupyter
 ```
 
-## Basic Usage
-
-### Import the library
+## Library usage
 
 ```python
+import logging
 import numpy as np
 import earthsciences as es
-```
+from earthsciences.utils.logging_config import setup_logging
 
-### Statistics
+setup_logging()
 
-```python
-# Descriptive statistics
-data = np.random.randn(100)
+# Statistics
+data = np.random.default_rng(0).normal(size=100)
 stats = es.statistics.descriptive_stats(data)
-print(f"Mean: {stats['mean']:.3f}, Std: {stats['std']:.3f}")
+logging.info("mean=%.3f std=%.3f", stats["mean"], stats["std"])
 
-# Linear regression
-x = np.array([1, 2, 3, 4, 5])
-y = np.array([2, 4, 5, 4, 5])
-result = es.statistics.linear_regression(x, y)
-print(f"Slope: {result['slope']:.3f}, R²: {result['r_squared']:.3f}")
-```
-
-### Time-Series
-
-```python
-# Generate signal and compute power spectrum
-t, signal = es.timeseries.generate_test_signal('mixed', duration=1, sampling_rate=1000)
+# Time series
+t, signal = es.timeseries.generate_test_signal("mixed", duration=1, sampling_rate=1000)
 freqs, power = es.timeseries.power_spectrum(signal, sampling_rate=1000)
 
-# Apply filter
-filtered = es.timeseries.lowpass_filter(signal, cutoff=20, sampling_rate=1000)
+# Spatial: variogram + kriging
+x = np.random.default_rng(1).uniform(0, 10, 30)
+y = np.random.default_rng(2).uniform(0, 10, 30)
+z = np.sin(x) + np.cos(y)
+lags, gamma, n_pairs = es.spatial.compute_variogram(x, y, z)
+fit = es.spatial.fit_variogram_model(lags, gamma, n_pairs=n_pairs)
+grid_x, grid_y = np.meshgrid(np.linspace(0, 10, 30), np.linspace(0, 10, 30))
+z_grid = es.spatial.ordinary_kriging(x, y, z, grid_x, grid_y, fit["variogram_func"])
 ```
 
-### Spatial Data
-
-```python
-# Interpolation
-x = np.random.rand(30) * 10
-y = np.random.rand(30) * 10
-values = np.sin(x) + np.cos(y)
-
-grid_x, grid_y = np.meshgrid(np.linspace(0, 10, 50), np.linspace(0, 10, 50))
-interpolated = es.spatial.idw_interpolation(x, y, values, grid_x, grid_y)
-
-# Variogram
-lags, gamma, n_pairs = es.spatial.compute_variogram(x, y, values)
-fit = es.spatial.fit_variogram_model(lags, gamma, model='spherical')
-```
-
-### Multivariate
-
-```python
-# PCA
-from sklearn.datasets import make_blobs
-X, _ = make_blobs(n_samples=100, n_features=5, centers=3)
-
-pca_result = es.multivariate.principal_component_analysis(X, n_components=2)
-print(f"Variance explained: {pca_result['explained_variance_ratio']}")
-
-# Clustering
-clusters = es.multivariate.kmeans_clustering(X, n_clusters=3)
-print(f"Silhouette score: {clusters['silhouette_score']:.3f}")
-```
-
-### Directional Data
-
-```python
-# Circular statistics (angles in degrees)
-angles = np.array([10, 350, 5, 15, 355])
-mean_dir = es.directional.circular_mean(angles, degrees=True)
-print(f"Mean direction: {mean_dir:.1f}°")
-
-# Test for uniformity
-test = es.directional.rayleigh_test(angles, degrees=True)
-print(f"P-value: {test['p_value']:.4f}")
-```
-
-## Run Examples
+## Run examples
 
 ```bash
-# Run example script
 cd examples
-python example_statistics.py
+uv run python geochem_00_quickstart.py
+uv run python geochronology_metamorphic_terrane.py
 
-# Start Jupyter for notebooks
-jupyter notebook
+cd tutorials
+uv run python 05_geochronology.py
 ```
 
-## Module Structure
+See [`examples/README.md`](examples/README.md) for the full catalog.
 
-```
-earthsciences/
-├── statistics/          # Univariate & bivariate statistics
-│   ├── univariate.py
-│   ├── bivariate.py
-│   ├── distributions.py
-│   ├── hypothesis_tests.py
-│   └── resampling.py
-├── timeseries/          # Time-series & signal processing
-│   ├── spectral.py
-│   ├── filtering.py
-│   ├── wavelets.py
-│   └── signals.py
-├── spatial/             # Spatial data analysis
-│   ├── interpolation.py
-│   ├── kriging.py
-│   ├── variogram.py
-│   └── point_patterns.py
-├── multivariate/        # Multivariate methods
-│   ├── pca.py
-│   ├── clustering.py
-│   └── classification.py
-├── directional/         # Circular & spherical statistics
-│   ├── circular.py
-│   └── spherical.py
-└── utils/               # Utilities
+## CLI pipeline
+
+```bash
+uv run earthsciences init --template minimal -o my_project.yaml
+# edit my_project.yaml, then:
+uv run earthsciences run --config my_project.yaml
 ```
 
-## Getting Help
+## Next steps
 
-- Documentation: See docstrings in each function
-- Examples: Check the `examples/` directory
-- Issues: Report bugs or request features via GitHub issues
-
-## Next Steps
-
-1. Explore example notebooks in `examples/`
-2. Read function docstrings for detailed parameter information
-3. Adapt code to your own earth sciences data analysis projects
+- [`README.md`](README.md) — overview and feature table
+- [`examples/README_GEOCHEMISTRY.md`](examples/README_GEOCHEMISTRY.md) — Alaska geochemistry walkthrough
+- [`examples/README_GEOCHRONOLOGY.md`](examples/README_GEOCHRONOLOGY.md) — radiometric dating case study
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — development workflow

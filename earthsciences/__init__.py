@@ -1,27 +1,29 @@
 """
-Earth Sciences Recipes for Python
+earthsciences — geoscience data analysis for Python.
 
-A modern Python library for earth sciences data analysis
-
+Subpackages cover statistics, time series, spatial geostatistics, multivariate
+methods, directional data, geochronology, geophysics, and related domains.
 """
 
 __version__ = "0.3.0"
-__author__ = "j"
+__author__ = "Kyle Jones"
 
 # Import main modules
-from . import statistics
-from . import timeseries
-from . import spatial
-from . import multivariate
-from . import directional
-from . import imaging
-from . import data
-from . import geochronology
-from . import geophysics
-from . import petroleum
-from . import hydrogeology
-from . import seismology
-from . import utils
+from . import (
+    data,
+    directional,
+    geochronology,
+    geophysics,
+    hydrogeology,
+    imaging,
+    multivariate,
+    petroleum,
+    seismology,
+    spatial,
+    statistics,
+    timeseries,
+    utils,
+)
 
 __all__ = [
     "statistics",

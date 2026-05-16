@@ -1,0 +1,47 @@
+site_name: earthsciences
+site_description: Geoscience data analysis for Python
+site_url: https://kylejones200.github.io/earthscience/
+repo_url: https://github.com/kylejones200/earthscience
+repo_name: kylejones200/earthscience
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+  features:
+    - navigation.sections
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            docstring_style: numpy
+            show_source: true
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - User guide:
+      - Overview: guide/overview.md
+      - Examples: guide/examples.md
+  - API reference:
+      - statistics: api/statistics.md
+      - spatial: api/spatial.md
+      - timeseries: api/timeseries.md
+      - geochronology: api/geochronology.md
+      - multivariate: api/multivariate.md
+      - directional: api/directional.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - toc:
+      permalink: true

@@ -1,22 +1,24 @@
 """
-Resampling methods 
+Resampling methods
 
 Bootstrap, jackknife, permutation tests, and cross-validation.
 """
 
+from collections.abc import Callable
+
 import numpy as np
-from typing import Callable, Dict, Tuple, Optional, Union
-from scipy import stats
 
 
-def bootstrap(data: np.ndarray,
-              statistic: Callable = np.mean,
-              n_bootstrap: int = 1000,
-              confidence: float = 0.95,
-              random_state: Optional[int] = None) -> Dict:
+def bootstrap(
+    data: np.ndarray,
+    statistic: Callable = np.mean,
+    n_bootstrap: int = 1000,
+    confidence: float = 0.95,
+    random_state: int | None = None,
+) -> dict:
     """
     Bootstrap resampling for estimating sampling distribution.
-    
+
     Parameters
     ----------
     data : array_like
@@ -29,7 +31,7 @@ def bootstrap(data: np.ndarray,
         Confidence level for CI (default=0.95)
     random_state : int, optional
         Random seed
-        
+
     Returns
     -------
     dict
@@ -41,41 +43,40 @@ def bootstrap(data: np.ndarray,
     """
     if random_state is not None:
         np.random.seed(random_state)
-    
+
     data = np.asarray(data)
     n = len(data)
-    
+
     bootstrap_stats = np.zeros(n_bootstrap)
     for i in range(n_bootstrap):
         sample = np.random.choice(data, size=n, replace=True)
         bootstrap_stats[i] = statistic(sample)
-    
+
     alpha = 1 - confidence
     ci_lower = np.percentile(bootstrap_stats, 100 * alpha / 2)
     ci_upper = np.percentile(bootstrap_stats, 100 * (1 - alpha / 2))
-    
+
     return {
-        'estimate': statistic(data),
-        'confidence_interval': (ci_lower, ci_upper),
-        'ci': (ci_lower, ci_upper),
-        'bootstrap_samples': bootstrap_stats,
-        'samples': bootstrap_stats,
-        'standard_error': np.std(bootstrap_stats)
+        "estimate": statistic(data),
+        "confidence_interval": (ci_lower, ci_upper),
+        "ci": (ci_lower, ci_upper),
+        "bootstrap_samples": bootstrap_stats,
+        "samples": bootstrap_stats,
+        "standard_error": np.std(bootstrap_stats),
     }
 
 
-def jackknife(data: np.ndarray,
-              statistic: Callable = np.mean) -> Dict:
+def jackknife(data: np.ndarray, statistic: Callable = np.mean) -> dict:
     """
     Jackknife resampling for bias and variance estimation.
-    
+
     Parameters
     ----------
     data : array_like
         Input data
     statistic : callable
         Function to compute statistic
-        
+
     Returns
     -------
     dict
@@ -87,37 +88,39 @@ def jackknife(data: np.ndarray,
     """
     data = np.asarray(data)
     n = len(data)
-    
+
     full_stat = statistic(data)
-    
+
     jackknife_stats = np.zeros(n)
     for i in range(n):
         sample = np.delete(data, i)
         jackknife_stats[i] = statistic(sample)
-    
+
     jackknife_mean = np.mean(jackknife_stats)
     bias = (n - 1) * (jackknife_mean - full_stat)
-    
-    variance = ((n - 1) / n) * np.sum((jackknife_stats - jackknife_mean)**2)
+
+    variance = ((n - 1) / n) * np.sum((jackknife_stats - jackknife_mean) ** 2)
     se = np.sqrt(variance)
-    
+
     return {
-        'estimate': full_stat,
-        'bias': bias,
-        'standard_error': se,
-        'se': se,
-        'jackknife_samples': jackknife_stats
+        "estimate": full_stat,
+        "bias": bias,
+        "standard_error": se,
+        "se": se,
+        "jackknife_samples": jackknife_stats,
     }
 
 
-def permutation_test(group1: np.ndarray,
-                     group2: np.ndarray,
-                     statistic: Optional[Callable] = None,
-                     n_permutations: int = 1000,
-                     random_state: Optional[int] = None) -> Dict:
+def permutation_test(
+    group1: np.ndarray,
+    group2: np.ndarray,
+    statistic: Callable | None = None,
+    n_permutations: int = 1000,
+    random_state: int | None = None,
+) -> dict:
     """
     Permutation test for comparing two groups.
-    
+
     Parameters
     ----------
     group1, group2 : array_like
@@ -128,7 +131,7 @@ def permutation_test(group1: np.ndarray,
         Number of permutations (default=1000)
     random_state : int, optional
         Random seed
-        
+
     Returns
     -------
     dict
@@ -139,46 +142,49 @@ def permutation_test(group1: np.ndarray,
     """
     if random_state is not None:
         np.random.seed(random_state)
-    
+
     group1 = np.asarray(group1)
     group2 = np.asarray(group2)
-    
+
     if statistic is None:
+
         def statistic(g1, g2):
             return np.mean(g1) - np.mean(g2)
-    
+
     observed_stat = statistic(group1, group2)
-    
+
     combined = np.concatenate([group1, group2])
     n1 = len(group1)
     n_total = len(combined)
-    
+
     perm_stats = np.zeros(n_permutations)
     for i in range(n_permutations):
         permuted = np.random.permutation(combined)
         perm_group1 = permuted[:n1]
         perm_group2 = permuted[n1:]
         perm_stats[i] = statistic(perm_group1, perm_group2)
-    
+
     p_value = np.mean(np.abs(perm_stats) >= np.abs(observed_stat))
-    
+
     return {
-        'p_value': p_value,
-        'pvalue': p_value,
-        'statistic': observed_stat,
-        'test_statistic': observed_stat,
-        'null_distribution': perm_stats
+        "p_value": p_value,
+        "pvalue": p_value,
+        "statistic": observed_stat,
+        "test_statistic": observed_stat,
+        "null_distribution": perm_stats,
     }
 
 
-def cross_validate(X: np.ndarray,
-                   y: np.ndarray,
-                   k: int = 5,
-                   method: str = 'kfold',
-                   model: Optional[Callable] = None) -> Dict:
+def cross_validate(
+    X: np.ndarray,
+    y: np.ndarray,
+    k: int = 5,
+    method: str = "kfold",
+    model: Callable | None = None,
+) -> dict:
     """
     Cross-validation for model evaluation.
-    
+
     Parameters
     ----------
     X : array_like
@@ -191,7 +197,7 @@ def cross_validate(X: np.ndarray,
         'kfold' or 'loo' (leave-one-out)
     model : callable, optional
         Model function (default=linear regression)
-        
+
     Returns
     -------
     dict
@@ -202,57 +208,55 @@ def cross_validate(X: np.ndarray,
     X = np.asarray(X)
     y = np.asarray(y)
     n = len(y)
-    
+
     if model is None:
         from sklearn.linear_model import LinearRegression
         from sklearn.metrics import r2_score
-        
+
         def default_model(X_train, y_train, X_test, y_test):
             model = LinearRegression()
             model.fit(X_train, y_train)
             y_pred = model.predict(X_test)
             return r2_score(y_test, y_pred)
-        
+
         model = default_model
-    
-    if method == 'loo':
+
+    if method == "loo":
         k = n
-    
+
     indices = np.arange(n)
     np.random.shuffle(indices)
     fold_sizes = np.full(k, n // k)
-    fold_sizes[:n % k] += 1
-    
+    fold_sizes[: n % k] += 1
+
     scores = []
     current = 0
     for fold_size in fold_sizes:
-        test_indices = indices[current:current + fold_size]
-        train_indices = np.concatenate([indices[:current], indices[current + fold_size:]])
-        
+        test_indices = indices[current : current + fold_size]
+        train_indices = np.concatenate([indices[:current], indices[current + fold_size :]])
+
         X_train, X_test = X[train_indices], X[test_indices]
         y_train, y_test = y[train_indices], y[test_indices]
-        
+
         score = model(X_train, y_train, X_test, y_test)
         scores.append(score)
-        
+
         current += fold_size
-    
+
     scores = np.array(scores)
-    
-    return {
-        'scores': scores,
-        'cv_scores': scores,
-        'mean_score': np.mean(scores)
-    }
+
+    return {"scores": scores, "cv_scores": scores, "mean_score": np.mean(scores)}
 
 
-def monte_carlo(simulation_func: Callable,
-                n_simulations: int = 1000,
-                confidence: float = 0.95,
-                random_state: Optional[int] = None) -> Dict:
+def monte_carlo(
+    simulation_func: Callable,
+    n_simulations: int = 1000,
+    confidence: float = 0.95,
+    random_state: int | None = None,
+) -> dict:
     """
     Monte Carlo simulation.
-    
+
     Parameters
     ----------
     simulation_func : callable
@@ -263,7 +267,7 @@ def monte_carlo(simulation_func: Callable,
         Confidence level (default=0.95)
     random_state : int, optional
         Random seed
-        
+
     Returns
     -------
     dict
@@ -275,19 +279,19 @@ def monte_carlo(simulation_func: Callable,
     """
     if random_state is not None:
         np.random.seed(random_state)
-    
+
     results = np.array([simulation_func() for _ in range(n_simulations)])
-    
+
     alpha = 1 - confidence
     ci_lower = np.percentile(results, 100 * alpha / 2)
     ci_upper = np.percentile(results, 100 * (1 - alpha / 2))
-    
+
     return {
-        'results': results,
-        'simulations': results,
-        'mean': np.mean(results),
-        'estimate': np.mean(results),
-        'confidence_interval': (ci_lower, ci_upper),
-        'ci': (ci_lower, ci_upper),
-        'standard_deviation': np.std(results)
+        "results": results,
+        "simulations": results,
+        "mean": np.mean(results),
+        "estimate": np.mean(results),
+        "confidence_interval": (ci_lower, ci_upper),
+        "ci": (ci_lower, ci_upper),
+        "standard_deviation": np.std(results),
     }

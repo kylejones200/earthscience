@@ -1,0 +1,3 @@
+# multivariate
+
+::: earthsciences.multivariate

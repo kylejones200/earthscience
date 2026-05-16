@@ -39,7 +39,7 @@ fig, ax = plt.subplots(figsize=(10, 6))
 ax.plot(x, y, color='#1976D2', linewidth=2.5, label='Data')
 
 # Descriptive title (eliminates need for axis labels)
-ax.set_title('Temperature vs Depth in Borehole (°C and meters)', 
+ax.set_title('Temperature vs Depth in Borehole (°C and meters)',
              fontsize=13, fontweight='bold', pad=15)
 
 # Add legend without frame
@@ -85,21 +85,21 @@ Light variants for fills:
 ## Examples
 
 All example files demonstrate the clean style:
-- `examples/05_geochronology.py` - 4 plots
-- `examples/06_directional_statistics.py` - 4 plots
-- `examples/07_timeseries_analysis.py` - 4 plots
-- `examples/08_image_analysis.py` - 3 plots
-- `examples/example_statistics.py` - 1 plot (4 panels)
+- `examples/tutorials/05_geochronology.py` - 4 plots
+- `examples/tutorials/06_directional_statistics.py` - 4 plots
+- `examples/tutorials/07_timeseries_analysis.py` - 4 plots
+- `examples/tutorials/08_image_analysis.py` - 3 plots
+- `examples/tutorials/example_statistics.py` - 1 plot (4 panels)
 
 Run any example to see the minimalist design in action!
 
 ## Benefits
 
-✓ Professional, publication-ready appearance  
-✓ Easier to read - less visual clutter  
-✓ Better focus on the actual data  
-✓ Consistent style across all plots  
-✓ Modern, clean aesthetic  
+✓ Professional, publication-ready appearance
+✓ Easier to read - less visual clutter
+✓ Better focus on the actual data
+✓ Consistent style across all plots
+✓ Modern, clean aesthetic
 
 ---
 

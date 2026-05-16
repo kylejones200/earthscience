@@ -5,18 +5,28 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "earthsciences"
 version = "0.3.0"
-description = "Python recipes for earth sciences data analysis (ALPHA VERSION)"
+description = "Geoscience data analysis: statistics, geostatistics, time series, geochemistry, and geochronology"
 readme = "README.md"
-authors = [{name = "Earth Sciences Python Contributors"}]
-license = {text = "MIT"}
+authors = [{name = "Kyle Jones"}]
+license = "MIT"
+keywords = [
+    "geoscience",
+    "geostatistics",
+    "kriging",
+    "variogram",
+    "geochemistry",
+    "geochronology",
+    "geophysics",
+    "spatial-analysis",
+]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: POSIX :: Linux",
+    "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Physics",
 ]
 requires-python = ">=3.12"
 dependencies = [
@@ -36,10 +46,16 @@ dependencies = [
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=6.2.1",
+    "pytest-xdist>=3.8.0",
     "black>=23.0.0",
     "flake8>=6.0.0",
+    "isort>=5.12.0",
     "mypy>=1.0.0",
-    "sphinx>=7.0.0",
+    "ruff>=0.8.0",
+    "pre-commit>=4.0.0",
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+    "ipykernel>=6.25.0",
 ]
 notebooks = [
     "jupyter>=1.0.0",
@@ -55,15 +71,29 @@ full = [
 geospatial = [
     "rasterio>=1.3.0",
     "geopandas>=0.13.0",
+    "fiona>=1.9.0",
+    "shapely>=2.0.0",
 ]
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.26.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["earthsciences*"]
+
+[tool.uv]
+package = true
 
 [project.scripts]
 earthsciences = "earthsciences.cli:cli"
 
 [project.urls]
-Homepage = "https://github.com/kylejones200/earthsciences"
-Repository = "https://github.com/kylejones200/earthsciences"
-Issues = "https://github.com/kylejones200/earthsciences/issues"
+Homepage = "https://github.com/kylejones200/earthscience"
+Documentation = "https://kylejones200.github.io/earthscience/"
+Repository = "https://github.com/kylejones200/earthscience"
+Issues = "https://github.com/kylejones200/earthscience/issues"
 
 [tool.black]
 line-length = 100
@@ -128,9 +158,28 @@ source = ["earthsciences"]
 omit = [
     "*/tests/*",
     "*/test_*.py",
+    "earthsciences/workflows/*",
+    "earthsciences/cli.py",
 ]
 
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["earthsciences", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "UP"]
+ignore = ["E501", "E722", "E731", "E741", "F841"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F403", "F405"]
+"earthsciences/workflows/pipeline.py" = ["E731", "E722"]
+"examples/**" = ["E402", "F841"]
+"tests/**" = ["E712", "F841", "E741"]
+
 [tool.coverage.report]
+fail_under = 30
+precision = 1
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",

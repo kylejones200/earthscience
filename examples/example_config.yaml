@@ -35,20 +35,20 @@ variogram:
 kriging:
   method: "ordinary"  # Options: ordinary, simple, universal
   drift_terms: null  # For universal kriging: ['x', 'y', 'x*y']
-  
+
   neighborhood:
     max_neighbors: 25
     min_neighbors: 3
     search_radius: null  # Auto if null
     use_quadrant_search: false
-  
+
   grid:
     x_min: -180.0
     x_max: -120.0
     y_min: 50.0
     y_max: 72.0
     resolution: 0.1
-  
+
   compute_variance: true
 
 validation:

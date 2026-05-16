@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 def clean_plot_style(ax, remove_grid=True, remove_spines=True):
     """
     Apply clean, minimalist style to a matplotlib axis.
-    
+
     Parameters
     ----------
     ax : matplotlib.axes.Axes
@@ -27,25 +27,24 @@ def clean_plot_style(ax, remove_grid=True, remove_spines=True):
     # Remove gridlines unless absolutely needed
     if remove_grid:
         ax.grid(False)
-    
+
     # Remove top and right spines
     if remove_spines:
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+
         # Make bottom and left spines thinner
-        ax.spines['bottom'].set_linewidth(0.8)
-        ax.spines['left'].set_linewidth(0.8)
-    
+        ax.spines["bottom"].set_linewidth(0.8)
+        ax.spines["left"].set_linewidth(0.8)
+
     # Lighter tick marks
-    ax.tick_params(axis='both', which='both', length=4, width=0.8, 
-                   color='#555555', labelsize=10)
+    ax.tick_params(axis="both", which="both", length=4, width=0.8, color="#555555", labelsize=10)
 
 
 def setup_figure(nrows=1, ncols=1, figsize=None, **kwargs):
     """
     Create figure with clean default styling.
-    
+
     Parameters
     ----------
     nrows, ncols : int
@@ -54,7 +53,7 @@ def setup_figure(nrows=1, ncols=1, figsize=None, **kwargs):
         Figure size (width, height) in inches
     **kwargs
         Additional arguments passed to plt.subplots()
-    
+
     Returns
     -------
     fig, axes
@@ -65,9 +64,9 @@ def setup_figure(nrows=1, ncols=1, figsize=None, **kwargs):
         width = 7 * ncols
         height = 5 * nrows
         figsize = (width, height)
-    
+
     fig, axes = plt.subplots(nrows, ncols, figsize=figsize, **kwargs)
-    
+
     # Apply clean style to all axes
     if nrows == 1 and ncols == 1:
         clean_plot_style(axes)
@@ -78,5 +77,5 @@ def setup_figure(nrows=1, ncols=1, figsize=None, **kwargs):
         for row in axes:
             for ax in row:
                 clean_plot_style(ax)
-    
+
     return fig, axes if (nrows > 1 or ncols > 1) else (fig, axes)
