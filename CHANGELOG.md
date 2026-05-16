@@ -7,10 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- GitHub issue templates and Dependabot config
+- Docs badge and corrected repository URLs in README
 - MkDocs site (`docs/`, GitHub Pages workflow)
 - PyPI publish workflow on version tags (`v*`)
 - Pre-commit hooks (black, isort, ruff)
-- Coverage gate in CI (30% minimum on tested modules)
+- Coverage gate in CI (35% minimum on tested modules)
 - `examples/tutorials/` for domain tutorial scripts
 - `earthsciences.utils.logging_config` for consistent logging
 - `examples/geochronology_metamorphic_terrane.py` geochronology case study
@@ -26,6 +28,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Skipped variogram and natural-neighbor tests now run
 - `fit_variogram_model` returns `variogram_func` key
 - `rbf_interpolation`, `cross_validate`, and `gev_return_level` edge cases
+- `earthsciences.data` package tracked in git (was excluded by `.gitignore`)
+- `return_level` validates `return_period > 1` (consistent with `gev_return_level`)
+- Timeseries `autocorrelation` name clash resolved (`spectral_autocorrelation` alias)
 
 ## [0.3.0] - 2024
 

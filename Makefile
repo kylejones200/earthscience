@@ -10,13 +10,15 @@ test:
 	uv run pytest tests/ -v
 
 test-cov:
-	uv run pytest tests/ --cov=earthsciences --cov-report=term-missing --cov-fail-under=30
+	uv run pytest tests/ --cov=earthsciences --cov-report=term-missing --cov-fail-under=35
 
 lint:
-	uv run black --check earthsciences tests examples
+	uv run black --check earthsciences tests
 	uv run isort --check-only earthsciences tests
 	uv run ruff check earthsciences tests
-	uv run flake8 earthsciences tests --max-line-length=100
+
+pre-commit:
+	uv run pre-commit run --all-files
 
 docs:
 	uv run mkdocs build --strict

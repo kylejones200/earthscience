@@ -8,8 +8,8 @@
 ## Development install
 
 ```bash
-git clone https://github.com/kylejones200/earthsciences.git
-cd earthsciences
+git clone https://github.com/kylejones200/earthscience.git
+cd earthscience
 uv sync --extra dev
 uv run pytest tests/ -v
 ```

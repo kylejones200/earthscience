@@ -88,7 +88,7 @@ class TestRayleighTest:
 
         # Should reject null hypothesis of uniformity
         assert result["p_value"] < 0.05
-        assert result["significant"] == True
+        assert result["significant"]
 
     def test_p_value_range(self, sample_angles):
         """Test that p-value is in valid range."""

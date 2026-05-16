@@ -91,6 +91,9 @@ def return_level(gev_params: dict, return_period: float) -> float:
     >>> level_100 = return_level(fit, 100)
     >>> print(f"100-year flood level: {level_100:.2f} m")
     """
+    if return_period <= 1:
+        raise ValueError("return_period must be greater than 1")
+
     shape = gev_params["shape"]
     location = gev_params["location"]
     scale = gev_params["scale"]

@@ -4,7 +4,8 @@ A Python toolkit for geoscience data analysis: statistics, time series, geostati
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/kylejones200/earthsciences/actions/workflows/ci.yml/badge.svg)](https://github.com/kylejones200/earthsciences/actions/workflows/ci.yml)
+[![CI](https://github.com/kylejones200/earthscience/actions/workflows/ci.yml/badge.svg)](https://github.com/kylejones200/earthscience/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://kylejones200.github.io/earthscience/)
 
 > **Status:** Active development (v0.3). APIs may change between minor releases. Validate critical results against independent methods before publication or operational use.
 
@@ -27,8 +28,8 @@ Config-driven geostatistical pipelines are available via the CLI (`earthsciences
 Requires **Python 3.12+**. [uv](https://docs.astral.sh/uv/) is recommended for reproducible installs.
 
 ```bash
-git clone https://github.com/kylejones200/earthsciences.git
-cd earthsciences
+git clone https://github.com/kylejones200/earthscience.git
+cd earthscience
 
 uv sync                  # runtime dependencies
 uv sync --extra dev      # tests, linting, notebooks
@@ -102,7 +103,7 @@ See [`examples/README.md`](examples/README.md) and [`QUICKSTART.md`](QUICKSTART.
 ```bash
 uv sync --extra dev
 pre-commit install          # black, isort, ruff on every commit
-make test                   # pytest + coverage gate (≥30%)
+make test                   # pytest + coverage gate (≥35%)
 make lint
 ```
 

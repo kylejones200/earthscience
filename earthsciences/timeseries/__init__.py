@@ -9,7 +9,8 @@ from .filtering import *
 from .nonlinear import *
 from .signal_processing import *
 from .signals import *
-from .spectral import *
+from .spectral import *  # noqa: F403
+from .spectral import autocorrelation as spectral_autocorrelation
 from .wavelets import *
 
 __all__ = [
@@ -39,4 +40,5 @@ __all__ = [
     "cusum",
     "pettitt_test",
     "mann_kendall_test",
+    "spectral_autocorrelation",
 ]

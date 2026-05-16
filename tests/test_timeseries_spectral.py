@@ -90,7 +90,7 @@ class TestLombScargle:
         peak_freq = freq[peak_idx]
 
         # The peak should be near the true frequency (within 10%)
-        # Note: frequency units depend on implementation
+        assert peak_freq > 0
         assert power[peak_idx] > 0.1  # Should have significant power
 
 

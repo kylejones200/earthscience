@@ -48,7 +48,6 @@ dev = [
     "pytest-cov>=6.2.1",
     "pytest-xdist>=3.8.0",
     "black>=23.0.0",
-    "flake8>=6.0.0",
     "isort>=5.12.0",
     "mypy>=1.0.0",
     "ruff>=0.8.0",
@@ -175,10 +174,10 @@ ignore = ["E501", "E722", "E731", "E741", "F841"]
 "**/__init__.py" = ["F403", "F405"]
 "earthsciences/workflows/pipeline.py" = ["E731", "E722"]
 "examples/**" = ["E402", "F841"]
-"tests/**" = ["E712", "F841", "E741"]
+"tests/**" = ["E741"]
 
 [tool.coverage.report]
-fail_under = 30
+fail_under = 35
 precision = 1
 exclude_lines = [
     "pragma: no cover",

@@ -73,6 +73,9 @@ class TestFitVariogramModel:
         assert fit["nugget"] >= 0
         assert fit["sill"] >= 0
         assert fit["range"] > 0
+        assert callable(fit["variogram_func"])
+        assert callable(fit["function"])
+        assert fit["variogram_func"](0.0) == fit["function"](0.0)
 
     def test_exponential_model(self):
         """Test fitting exponential variogram model."""

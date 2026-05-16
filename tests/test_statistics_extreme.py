@@ -3,6 +3,7 @@ Tests for extreme value statistics module
 """
 
 import numpy as np
+import pytest
 
 from earthsciences.statistics import extreme_values
 
@@ -29,6 +30,21 @@ class TestGEV:
         return_level = extreme_values.gev_return_level(params, return_period=100)
 
         assert return_level > params["location"]
+
+    def test_gev_return_level_matches_return_level(self):
+        """gev_return_level should agree with return_level for the same parameters."""
+        params = {"location": 10, "scale": 2, "shape": 0.1}
+        assert extreme_values.gev_return_level(params, 50) == extreme_values.return_level(
+            params, 50
+        )
+
+    def test_gev_return_level_invalid_period(self):
+        """Return period must be greater than one year."""
+        params = {"location": 10, "scale": 2, "shape": 0.0}
+        with pytest.raises(ValueError, match="greater than 1"):
+            extreme_values.gev_return_level(params, return_period=1)
+        with pytest.raises(ValueError, match="greater than 1"):
+            extreme_values.return_level(params, return_period=0.5)
 
 
 class TestGPD:

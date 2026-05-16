@@ -105,16 +105,13 @@ def virtual_geomagnetic_pole(
     inclination = np.asarray(inclination)
 
     # Calculate VGP for each measurement
-    vgp_lats = []
-    vgp_lons = []
+    vgp_lats = np.empty(len(declination), dtype=float)
+    vgp_lons = np.empty(len(declination), dtype=float)
 
-    for dec, inc in zip(declination, inclination):
+    for i, (dec, inc) in enumerate(zip(declination, inclination)):
         lat, lon = geographic_to_magnetic(dec, inc, latitude, longitude)
-        vgp_lats.append(lat)
-        vgp_lons.append(lon)
-
-    vgp_lats = np.array(vgp_lats)
-    vgp_lons = np.array(vgp_lons)
+        vgp_lats[i] = lat
+        vgp_lons[i] = lon
 
     # Calculate mean VGP (Fisher statistics)
     from ..directional.spherical import fisher_distribution, spherical_mean

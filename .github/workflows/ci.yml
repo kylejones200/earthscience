@@ -25,7 +25,7 @@ jobs:
       run: uv sync --extra dev --frozen
 
     - name: Run tests
-      run: uv run pytest tests/ -v --tb=short --cov=earthsciences --cov-report=term-missing --cov-fail-under=30
+      run: uv run pytest tests/ -v --tb=short --cov=earthsciences --cov-report=term-missing --cov-fail-under=35
 
     - name: Lint
       run: |

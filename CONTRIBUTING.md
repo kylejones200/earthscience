@@ -5,8 +5,8 @@ Thank you for helping improve **earthsciences**. This document covers setup, sta
 ## Development setup
 
 ```bash
-git clone https://github.com/kylejones200/earthsciences.git
-cd earthsciences
+git clone https://github.com/kylejones200/earthscience.git
+cd earthscience
 
 uv sync --extra dev
 uv run pytest tests/ -v    # confirm environment
@@ -25,7 +25,7 @@ Equivalent targets are available via `make install-dev`, `make test`, and `make 
 
 - **Python 3.12+** — type hints where they clarify public APIs
 - **Formatting** — Black (100 columns), isort (profile black)
-- **Linting** — flake8, max line length 100
+- **Linting** — ruff + black + isort (100-column lines)
 - **Logging** — use `logging` in scripts and workflows; avoid bare `print` in library code
 - **Tests** — add or update tests in `tests/` for any behavior change
 
