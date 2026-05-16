@@ -108,5 +108,5 @@ examples/tutorials/*.png
 ehthumbs.db
 Thumbs.db
 
-# Data files (large datasets should not be tracked in git)
-data/
+# Large datasets at repo root (keep earthsciences/data package tracked)
+/data/
