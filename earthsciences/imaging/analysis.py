@@ -477,10 +477,10 @@ def detect_circular_objects(
 
     # Hough circle detection
     radii = np.arange(min_radius, max_radius + 1)
-    hough_res = feature.hough_circle(edges, radii)
+    hough_res = feature.hough_circle(edges, radii)  # type: ignore[attr-defined]
 
     # Find peaks
-    accums, cx, cy, radii_detected = feature.hough_circle_peaks(
+    accums, cx, cy, radii_detected = feature.hough_circle_peaks(  # type: ignore[attr-defined]
         hough_res, radii, threshold=sensitivity
     )
 

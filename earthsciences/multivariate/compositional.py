@@ -386,7 +386,7 @@ def aitchison_distance(x: np.ndarray, y: np.ndarray) -> float:
     # Euclidean distance in CLR space
     distance = np.linalg.norm(clr_x - clr_y)
 
-    return distance
+    return float(distance)
 
 
 def closure(data: np.ndarray, total: float = 1.0) -> np.ndarray:

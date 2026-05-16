@@ -289,16 +289,18 @@ def binary_segmentation(data: np.ndarray, min_size: int = 10, max_splits: int = 
                     best_segment = seg_idx
                     best_split_point = split
 
-        if best_segment is None:
+        if best_segment is None or best_split_point is None:
             break
+
+        split_at = int(best_split_point)
 
         # Apply best split
         start, end = segments_to_split.pop(best_segment)
-        change_points.append(best_split_point)
+        change_points.append(split_at)
 
         # Add new segments
-        segments_to_split.append((start, best_split_point))
-        segments_to_split.append((best_split_point, end))
+        segments_to_split.append((start, split_at))
+        segments_to_split.append((split_at, end))
 
     return sorted(change_points)
 

@@ -15,7 +15,7 @@ from earthsciences.data import get_element_stats, load_stream_sediments
 from earthsciences.multivariate import principal_component_analysis
 from earthsciences.spatial import idw_interpolation
 from earthsciences.statistics import correlation
-from earthsciences.utils.logging_config import log_section, setup_logging
+from earthsciences.utils.logging_config import log_section, log_step, setup_logging
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 log_section("QUICK START: Geochemistry Analysis")
 
 # Test 1: Load Data
-logger.info("\n1. Loading geochemical data...")
+log_step("1. Loading geochemical data")
 try:
     elements = ["Cu", "Zn", "Pb"]
     data = load_stream_sediments(elements)
@@ -34,7 +34,7 @@ except Exception as e:
     exit(1)
 
 # Test 2: Statistics
-logger.info("\n2. Computing statistics...")
+log_step("2. Computing statistics")
 try:
     cu_stats = get_element_stats("Cu")
     logger.info(f"✓ Cu: median={cu_stats['median']:.1f} ppm, P95={cu_stats['p95']:.1f} ppm")
@@ -42,7 +42,7 @@ except Exception as e:
     logger.info(f"✗ Error computing stats: {e}")
 
 # Test 3: Correlation
-logger.info("\n3. Analyzing correlations...")
+log_step("3. Analyzing correlations")
 try:
     mask = data["Cu"].notna() & data["Zn"].notna()
     subset_corr = data.loc[mask].head(1000)  # Subset for speed
@@ -55,7 +55,7 @@ except Exception as e:
     logger.info(f"✗ Error in correlation: {e}")
 
 # Test 4: Spatial Analysis
-logger.info("\n4. Testing spatial interpolation...")
+log_step("4. Testing spatial interpolation")
 try:
     # Small subset for quick test
     subset = data.sample(n=100, random_state=42)
@@ -74,7 +74,7 @@ except Exception as e:
     logger.info(f"✗ Error in spatial analysis: {e}")
 
 # Test 5: Multivariate
-logger.info("\n5. Testing multivariate analysis...")
+log_step("5. Testing multivariate analysis")
 try:
     # Small subset with complete data
     subset = data.dropna(subset=elements).sample(n=200, random_state=42)

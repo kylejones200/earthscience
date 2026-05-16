@@ -293,6 +293,7 @@ def design_fir_filter(
     nyquist = sampling_rate / 2.0
 
     # Normalize cutoff frequencies
+    cutoff_norm: float | list[float]
     if isinstance(cutoff, (tuple, list)):
         cutoff_norm = [c / nyquist for c in cutoff]
     else:
@@ -362,6 +363,7 @@ def design_iir_filter(
     nyquist = sampling_rate / 2.0
 
     # Normalize cutoff
+    cutoff_norm: float | list[float]
     if isinstance(cutoff, (tuple, list)):
         cutoff_norm = [c / nyquist for c in cutoff]
     else:

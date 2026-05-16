@@ -149,10 +149,7 @@ def natural_neighbor_interpolation(
         # Weighted average using barycentric coordinates
         interpolated[inside] = np.sum(values[simplices] * bary, axis=1)
 
-    # Reshape to grid shape
-    interpolated = interpolated.reshape(grid_x.shape)
-
-    return interpolated
+    return interpolated.reshape(grid_x.shape)
 
 
 def minimum_curvature_spline(
@@ -321,10 +318,7 @@ def inverse_distance_squared(
                 weights = 1.0 / (distances**2)
                 interpolated[i] = np.sum(weights * values) / np.sum(weights)
 
-    # Reshape
-    interpolated = interpolated.reshape(grid_x.shape)
-
-    return interpolated
+    return interpolated.reshape(grid_x.shape)
 
 
 def moving_average_interpolation(
@@ -398,10 +392,7 @@ def moving_average_interpolation(
             # Use available neighbors even if less than min
             interpolated[i] = np.mean(values[indices])
 
-    # Reshape
-    interpolated = interpolated.reshape(grid_x.shape)
-
-    return interpolated
+    return interpolated.reshape(grid_x.shape)
 
 
 def shepard_interpolation(

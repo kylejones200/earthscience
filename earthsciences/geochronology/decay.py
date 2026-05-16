@@ -19,7 +19,10 @@ DECAY_CONSTANTS = {
 
 
 def radioactive_decay(
-    N0: float, t: float, half_life: float = None, decay_constant: float = None
+    N0: float,
+    t: float,
+    half_life: float | None = None,
+    decay_constant: float | None = None,
 ) -> float:
     """
     Calculate amount remaining after radioactive decay.

@@ -78,6 +78,7 @@ def butter_filter(
     nyquist = sampling_rate / 2
 
     # Normalize cutoff frequency
+    normalized_cutoff: float | list[float]
     if isinstance(cutoff, (tuple, list)):
         normalized_cutoff = [c / nyquist for c in cutoff]
     else:
@@ -136,6 +137,7 @@ def fir_filter(
     nyquist = sampling_rate / 2
 
     # Normalize cutoff frequency
+    normalized_cutoff: float | list[float]
     if isinstance(cutoff, tuple):
         normalized_cutoff = [c / nyquist for c in cutoff]
     else:
@@ -190,7 +192,7 @@ def moving_average_filter(data: np.ndarray, window_size: int = 5, mode: str = "s
     kernel = np.ones(window_size) / window_size
 
     # Convolve with data
-    smoothed = np.convolve(data, kernel, mode=mode)
+    smoothed = np.convolve(data, kernel, mode=mode)  # type: ignore[call-overload]
 
     return smoothed
 
@@ -458,7 +460,7 @@ def lowpass_filter(
 
 def butterworth_filter(
     data: np.ndarray,
-    cutoff: float | list,
+    cutoff: float | list[float] | tuple[float, float],
     fs: float,
     filter_type: str = "lowpass",
     order: int = 4,
@@ -484,7 +486,11 @@ def butterworth_filter(
     ndarray
         Filtered signal
     """
-    return butter_filter(data, cutoff, fs, filter_type, order)
+    if isinstance(cutoff, list):
+        cutoff_arg: float | tuple[float, float] = (float(cutoff[0]), float(cutoff[1]))
+    else:
+        cutoff_arg = cutoff
+    return butter_filter(data, cutoff_arg, fs, filter_type, order)
 
 
 def moving_average(data: np.ndarray, window: int, mode: str = "valid") -> np.ndarray:

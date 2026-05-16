@@ -488,10 +488,10 @@ def fisher_rvs(
         Sampled angles (radians)
     """
     # Use rejection sampling
-    theta_samples = []
-    phi_samples = []
+    theta_list: list[float] = []
+    phi_list: list[float] = []
 
-    while len(theta_samples) < size:
+    while len(theta_list) < size:
         # Sample uniformly on sphere
         u = np.random.uniform(0, 1, size * 3)
         v = np.random.uniform(0, 1, size * 3)
@@ -507,11 +507,11 @@ def fisher_rvs(
         accept_prob = np.exp(kappa * (cos_dist - 1))
         accept = np.random.uniform(0, 1, size * 3) < accept_prob
 
-        theta_samples.extend(theta_prop[accept])
-        phi_samples.extend(phi_prop[accept])
+        theta_list.extend(theta_prop[accept].tolist())
+        phi_list.extend(phi_prop[accept].tolist())
 
-    theta_samples = np.array(theta_samples[:size])
-    phi_samples = np.array(phi_samples[:size])
+    theta_samples = np.asarray(theta_list[:size], dtype=float)
+    phi_samples = np.asarray(phi_list[:size], dtype=float)
 
     return theta_samples, phi_samples
 

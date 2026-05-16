@@ -251,14 +251,12 @@ def magnetic_reversal_detection(
     directions = np.column_stack([x, y, z])
 
     # Calculate angular distance between consecutive measurements
-    angular_changes = []
+    n_changes = max(0, len(directions) - 1)
+    angular_changes = np.empty(n_changes, dtype=float)
     for i in range(1, len(directions)):
         dot_product = np.dot(directions[i - 1], directions[i])
         dot_product = np.clip(dot_product, -1, 1)  # Numerical stability
-        angle = np.rad2deg(np.arccos(dot_product))
-        angular_changes.append(angle)
-
-    angular_changes = np.array(angular_changes)
+        angular_changes[i - 1] = np.rad2deg(np.arccos(dot_product))
 
     # Detect reversals (large angular changes)
     reversal_mask = angular_changes > threshold

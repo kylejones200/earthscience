@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Tests for `earthsciences.data` loaders and config-driven workflows
+- Blocking mypy in CI (74 modules clean with `warn_return_any` disabled for NumPy-heavy code)
 - GitHub issue templates and Dependabot config
 - Docs badge and corrected repository URLs in README
 - MkDocs site (`docs/`, GitHub Pages workflow)
@@ -20,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `configs/` directory for pipeline YAML organization
 
 ### Changed
+- Geochemistry examples use `log_step` for numbered workflow sections
 - `earthsciences.spatial` explicit `__all__` and deprecation aliases (`nearest_neighbor_interpolation`, `lisa`, `spatial_autocorrelation`)
 - Examples use `logging` instead of `print`
 - README and contributor docs aligned with uv workflow

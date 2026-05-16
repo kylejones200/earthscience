@@ -391,7 +391,7 @@ def confidence_intervals_return_level(
     rl = return_level(gev_params, return_period)
 
     # Bootstrap
-    bootstrap_rls = []
+    bootstrap_rls: list[float] = []
     for i in range(n_bootstrap):
         # Resample
         sample = np.random.choice(data, size=n, replace=True)
@@ -410,19 +410,19 @@ def confidence_intervals_return_level(
             )
             continue
 
-    bootstrap_rls = np.array(bootstrap_rls)
+    bootstrap_arr = np.asarray(bootstrap_rls, dtype=float)
 
     # Confidence intervals
     alpha = 1 - confidence
-    lower = np.percentile(bootstrap_rls, alpha / 2 * 100)
-    upper = np.percentile(bootstrap_rls, (1 - alpha / 2) * 100)
+    lower = np.percentile(bootstrap_arr, alpha / 2 * 100)
+    upper = np.percentile(bootstrap_arr, (1 - alpha / 2) * 100)
 
     return {
         "return_level": rl,
         "lower": lower,
         "upper": upper,
         "confidence": confidence,
-        "bootstrap_samples": bootstrap_rls,
+        "bootstrap_samples": bootstrap_arr,
     }
 
 
@@ -660,16 +660,16 @@ def bootstrap_return_level(
         except (RuntimeError, ValueError):
             continue
 
-    bootstrap_rls = np.array(bootstrap_rls)
+    bootstrap_arr = np.asarray(bootstrap_rls, dtype=float)
 
     alpha = 1 - confidence
-    lower = np.percentile(bootstrap_rls, alpha / 2 * 100)
-    upper = np.percentile(bootstrap_rls, (1 - alpha / 2) * 100)
+    lower = np.percentile(bootstrap_arr, alpha / 2 * 100)
+    upper = np.percentile(bootstrap_arr, (1 - alpha / 2) * 100)
 
     return {
         "return_level": rl,
         "lower": lower,
         "upper": upper,
         "confidence": confidence,
-        "bootstrap_samples": bootstrap_rls,
+        "bootstrap_samples": bootstrap_arr,
     }

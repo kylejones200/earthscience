@@ -1,0 +1,5 @@
+AGDB_ID,LATITUDE,LONGITUDE,PRIMARY_CLASS,SAMPLE_SOURCE,QUAD
+1,64.5,-149.5,sediment,stream sediment,FAIRBANKS
+2,64.6,-149.4,sediment,stream sediment,FAIRBANKS
+3,64.7,-149.3,rock,rock chip,FAIRBANKS
+4,64.8,-149.2,sediment,stream sediment,FAIRBANKS

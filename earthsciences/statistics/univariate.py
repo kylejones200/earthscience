@@ -149,11 +149,12 @@ def mode_estimate(
             return mode_result.mode[0] if len(mode_result.mode) > 0 else np.nan
 
         case "kernel":
+            arr = np.asarray(data, dtype=float)
             if bandwidth is None:
-                bandwidth = 1.06 * np.std(data) * len(data) ** (-1 / 5)
+                bandwidth = 1.06 * np.std(arr) * len(arr) ** (-1 / 5)
 
-            kde = stats.gaussian_kde(data, bw_method=bandwidth)
-            x_eval = np.linspace(data.min(), data.max(), 1000)
+            kde = stats.gaussian_kde(arr, bw_method=bandwidth)
+            x_eval = np.linspace(float(arr.min()), float(arr.max()), 1000)
             density = kde(x_eval)
             mode_idx = np.argmax(density)
 

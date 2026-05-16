@@ -139,7 +139,8 @@ markers = [
 
 [tool.mypy]
 python_version = "3.12"
-warn_return_any = true
+# NumPy/SciPy ufuncs often return Any; avoid hundreds of low-value no-any-return errors.
+warn_return_any = false
 warn_unused_configs = true
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
@@ -157,7 +158,6 @@ source = ["earthsciences"]
 omit = [
     "*/tests/*",
     "*/test_*.py",
-    "earthsciences/workflows/*",
     "earthsciences/cli.py",
 ]
 

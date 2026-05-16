@@ -229,7 +229,7 @@ def stepwise_regression(
         max_features = n_features
 
     # Initialize
-    selected = []
+    selected: list[int] = []
     remaining = list(range(n_features))
 
     def calculate_criterion(X_subset, y):

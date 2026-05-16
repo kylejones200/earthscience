@@ -160,7 +160,7 @@ def focal_mechanism(
     rakes = np.arange(-180, 181, 10)
 
     best_misfit = np.inf
-    best_params = (0, 0, 0)
+    best_params: tuple[int, int, int] = (0, 0, 0)
 
     for strike in strikes:
         for dip in dips:
@@ -176,19 +176,19 @@ def focal_mechanism(
 
                 if misfit < best_misfit:
                     best_misfit = misfit
-                    best_params = (strike, dip, rake)
+                    best_params = (int(strike), int(dip), int(rake))
 
-    strike, dip, rake = best_params
+    strike_deg, dip_deg, rake_deg = best_params
 
     # Calculate auxiliary plane
-    strike_aux = (strike + 180) % 360
-    dip_aux = 90 - dip
-    rake_aux = -rake
+    strike_aux = (strike_deg + 180) % 360
+    dip_aux = 90 - dip_deg
+    rake_aux = -rake_deg
 
     return {
-        "strike": strike,
-        "dip": dip,
-        "rake": rake,
+        "strike": strike_deg,
+        "dip": dip_deg,
+        "rake": rake_deg,
         "strike_aux": strike_aux,
         "dip_aux": dip_aux,
         "rake_aux": rake_aux,

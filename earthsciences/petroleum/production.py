@@ -41,6 +41,7 @@ def decline_curve_analysis(
         return qi / (1 + b * Di * t) ** (1 / b)
 
     # Fit model
+    b: float
     try:
         if method == "exponential":
             popt, _ = curve_fit(
@@ -81,7 +82,7 @@ def decline_curve_analysis(
             "Curve fitting failed to converge. Using initial estimates. "
             "Results may be inaccurate. Check data quality."
         )
-        qi = production[0]
+        qi = float(production[0])
         Di = 0.01
         b = 0.5
         model = lambda t: hyperbolic(t, qi, Di, b)
@@ -98,9 +99,8 @@ def decline_curve_analysis(
         t_limit = ((qi / economic_limit) ** b - 1) / (b * Di)
         EUR = (qi**b) / (Di * (1 - b)) * (qi ** (1 - b) - economic_limit ** (1 - b))
     else:
-        EUR = np.trapz(
-            model(np.linspace(0, time[-1] * 5, 1000)), np.linspace(0, time[-1] * 5, 1000)
-        )
+        t_grid = np.linspace(0, time[-1] * 5, 1000)
+        EUR = float(np.trapezoid(model(t_grid), t_grid))
 
     return {
         "qi": qi,

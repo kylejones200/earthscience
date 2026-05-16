@@ -143,7 +143,7 @@ def ransac_regression(
     if residual_threshold is None:
         residual_threshold = 2 * np.std(y)
 
-    best_inliers = []
+    best_inliers: list[np.ndarray] = []
     best_slope = 0
     best_intercept = 0
 

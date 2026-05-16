@@ -243,9 +243,9 @@ def cross_validate(
 
         current += fold_size
 
-    scores = np.array(scores)
+    scores_arr = np.asarray(scores, dtype=float)
 
-    return {"scores": scores, "cv_scores": scores, "mean_score": np.mean(scores)}
+    return {"scores": scores_arr, "cv_scores": scores_arr, "mean_score": np.mean(scores_arr)}
 
 
 def monte_carlo(

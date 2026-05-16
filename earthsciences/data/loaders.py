@@ -77,11 +77,11 @@ def load_etopo2022(
 
     # Setup cache directory
     if data_dir is None:
-        data_dir = Path.home() / ".earthsciences" / "etopo2022"
+        cache_dir = Path.home() / ".earthsciences" / "etopo2022"
     else:
-        data_dir = Path(data_dir)
+        cache_dir = Path(data_dir)
 
-    data_dir.mkdir(parents=True, exist_ok=True)
+    cache_dir.mkdir(parents=True, exist_ok=True)
 
     # ETOPO 2022 is available via THREDDS server
     if resolution == "15s":
@@ -175,11 +175,11 @@ def load_srtm(lat: float, lon: float, resolution: str = "1s", data_dir: str | No
 
     # Setup data directory
     if data_dir is None:
-        data_dir = Path.home() / ".earthsciences" / "srtm"
+        cache_dir = Path.home() / ".earthsciences" / "srtm"
     else:
-        data_dir = Path(data_dir)
+        cache_dir = Path(data_dir)
 
-    tile_path = data_dir / tile_name
+    tile_path = cache_dir / tile_name
 
     if not tile_path.exists():
         raise FileNotFoundError(
@@ -253,13 +253,13 @@ def load_gtopo30(bbox: tuple[float, float, float, float], data_dir: str | None =
     >>> data = load_gtopo30(bbox, data_dir='/path/to/gtopo30')
     """
     if data_dir is None:
-        data_dir = Path.home() / ".earthsciences" / "gtopo30"
+        cache_dir = Path.home() / ".earthsciences" / "gtopo30"
     else:
-        data_dir = Path(data_dir)
+        cache_dir = Path(data_dir)
 
-    if not data_dir.exists():
+    if not cache_dir.exists():
         raise FileNotFoundError(
-            f"GTOPO30 data directory not found: {data_dir}\n"
+            f"GTOPO30 data directory not found: {cache_dir}\n"
             f"Download from: https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-30-arc-second-elevation-gtopo30"
         )
 
@@ -273,7 +273,7 @@ def load_gtopo30(bbox: tuple[float, float, float, float], data_dir: str | None =
 
     return {
         "message": "GTOPO30 loader requires rasterio or GDAL for full functionality",
-        "data_dir": str(data_dir),
+        "data_dir": str(cache_dir),
         "bbox": bbox,
     }
 
@@ -324,11 +324,11 @@ def download_tile(
     import requests
 
     if output_dir is None:
-        output_dir = Path.home() / ".earthsciences" / dataset
+        cache_dir = Path.home() / ".earthsciences" / dataset
     else:
-        output_dir = Path(output_dir)
+        cache_dir = Path(output_dir)
 
-    output_dir.mkdir(parents=True, exist_ok=True)
+    cache_dir.mkdir(parents=True, exist_ok=True)
 
     # Dataset-specific URLs
     urls = {
@@ -351,7 +351,7 @@ def download_tile(
         filename = f"{tile_id}.zip"
 
     url = urljoin(base_url, filename)
-    output_path = output_dir / filename
+    output_path = cache_dir / filename
 
     if output_path.exists():
         logger.info(f"File already exists: {output_path}")
@@ -386,7 +386,7 @@ def download_tile(
         return str(output_path)
 
     except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 401:
+        if e.response is not None and e.response.status_code == 401:
             raise ValueError(
                 "Authentication failed. Register for free at:\n"
                 "https://urs.earthdata.nasa.gov/users/new"

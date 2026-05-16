@@ -273,17 +273,17 @@ def elbow_method(X: np.ndarray, max_k: int = 10, random_state: int | None = None
 
     X = np.asarray(X)
 
-    inertias = []
+    inertias_list: list[float] = []
     for k in range(1, max_k + 1):
         model = KMeans(n_clusters=k, random_state=random_state, n_init=10)
         model.fit(X)
-        inertias.append(model.inertia_)
+        inertias_list.append(float(model.inertia_))
 
     # Simple elbow detection using second derivative
-    inertias = np.array(inertias)
+    inertias = np.asarray(inertias_list, dtype=float)
     if len(inertias) > 2:
         second_deriv = np.diff(np.diff(inertias))
-        optimal_k = np.argmax(second_deriv) + 2  # +2 because of double diff
+        optimal_k = int(np.argmax(second_deriv)) + 2  # +2 because of double diff
     else:
         optimal_k = 2
 

@@ -33,7 +33,8 @@ Equivalent targets are available via `make install-dev`, `make test`, and `make 
 pre-commit install   # once per clone
 make format          # auto-format
 make lint            # check before PR
-make test            # full suite + coverage gate
+make test            # full suite + coverage gate (≥35%)
+make typecheck       # mypy (required in CI)
 ```
 
 ### Pre-commit

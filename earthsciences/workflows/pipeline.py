@@ -454,9 +454,8 @@ class GeostatsPipeline:
                 import sys
 
                 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "examples"))
-                from plot_utils import clean_plot_style
+                from plot_utils import clean_plot_style  # noqa: F401
 
-                clean_plot_style()
                 use_clean_style = True
             except ImportError:
                 use_clean_style = False

@@ -22,7 +22,7 @@ def ordinary_kriging(
     grid_y: np.ndarray,
     variogram_func: Callable,
     return_variance: bool = False,
-) -> np.ndarray:
+) -> np.ndarray | tuple[np.ndarray, np.ndarray]:
     """
     Ordinary Kriging interpolation.
 
@@ -447,7 +447,7 @@ def cross_validate(
         query_y = np.array([[y[i]]])
 
         pred = ordinary_kriging(x_train, y_train, v_train, query_x, query_y, variogram_func)
-        predictions[i] = pred.ravel()[0]
+        predictions[i] = float(np.asarray(pred, dtype=float).ravel()[0])
 
     residuals = values - predictions
     mae = float(np.mean(np.abs(residuals)))

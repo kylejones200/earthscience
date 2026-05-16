@@ -116,7 +116,8 @@ class KrigingConfig(BaseModel):
         None, description="Drift terms for universal kriging (e.g., ['x', 'y', 'x*y'])"
     )
     neighborhood: NeighborhoodConfig = Field(
-        default_factory=NeighborhoodConfig, description="Neighborhood search parameters"
+        default_factory=NeighborhoodConfig,  # type: ignore[arg-type]
+        description="Neighborhood search parameters",
     )
     grid: GridConfig = Field(..., description="Prediction grid")
     compute_variance: bool = Field(default=True, description="Compute kriging variance")
@@ -179,11 +180,17 @@ class AnalysisConfig(BaseModel):
 
     project: ProjectConfig
     data: DataConfig
-    preprocessing: PreprocessingConfig | None = Field(default_factory=PreprocessingConfig)
-    variogram: VariogramConfig = Field(default_factory=VariogramConfig)
+    preprocessing: PreprocessingConfig | None = Field(
+        default_factory=PreprocessingConfig,  # type: ignore[arg-type]
+    )
+    variogram: VariogramConfig = Field(
+        default_factory=VariogramConfig,  # type: ignore[arg-type]
+    )
     kriging: KrigingConfig
     validation: ValidationConfig | None = Field(default_factory=ValidationConfig)
-    visualization: VisualizationConfig | None = Field(default_factory=VisualizationConfig)
+    visualization: VisualizationConfig | None = Field(
+        default_factory=VisualizationConfig,  # type: ignore[arg-type]
+    )
     output: OutputConfig = Field(default_factory=OutputConfig)
 
     class Config:

@@ -158,14 +158,14 @@ def false_nearest_neighbors(
 
     for i, dim in enumerate(dimensions):
         # Embed in d dimensions
-        embedded_d = time_delay_embedding(data, delay, dim)
+        embedded_d = time_delay_embedding(data, delay, int(dim))
 
         if dim == max_dimension:
             fnn_percent[i] = 0
             continue
 
         # Embed in d+1 dimensions
-        embedded_d1 = time_delay_embedding(data, delay, dim + 1)
+        embedded_d1 = time_delay_embedding(data, delay, int(dim) + 1)
 
         n_points = len(embedded_d)
         false_neighbors = 0
@@ -325,15 +325,20 @@ def recurrence_quantification_analysis(R: np.ndarray) -> dict:
 
         diagonal_lengths.extend(consecutive)
 
+    determinism: float
+    avg_line_length: float
+    max_line_length: float
+    entropy: float
+
     if len(diagonal_lengths) > 0:
         # Determinism (DET)
-        determinism = np.sum(diagonal_lengths) / np.sum(R_offdiag)
+        determinism = float(np.sum(diagonal_lengths) / np.sum(R_offdiag))
 
         # Average diagonal line length (L)
-        avg_line_length = np.mean(diagonal_lengths)
+        avg_line_length = float(np.mean(diagonal_lengths))
 
         # Maximum diagonal line length
-        max_line_length = np.max(diagonal_lengths)
+        max_line_length = float(np.max(diagonal_lengths))
 
         # Entropy of diagonal line lengths
         hist, _ = np.histogram(
@@ -341,12 +346,12 @@ def recurrence_quantification_analysis(R: np.ndarray) -> dict:
         )
         prob = hist / np.sum(hist)
         prob = prob[prob > 0]
-        entropy = -np.sum(prob * np.log(prob))
+        entropy = float(-np.sum(prob * np.log(prob)))
     else:
-        determinism = 0
-        avg_line_length = 0
-        max_line_length = 0
-        entropy = 0
+        determinism = 0.0
+        avg_line_length = 0.0
+        max_line_length = 0.0
+        entropy = 0.0
 
     return {
         "recurrence_rate": recurrence_rate,
@@ -416,7 +421,7 @@ def lyapunov_exponent(
             continue
 
         # Track evolution for a few steps
-        steps = min(10, n_points - max(i, nearest_idx) - 1)
+        steps = int(min(10, n_points - max(int(i), int(nearest_idx)) - 1))
 
         for step in range(1, steps):
             if i + step >= n_points or nearest_idx + step >= n_points:

@@ -9,8 +9,19 @@ from .filtering import *
 from .nonlinear import *
 from .signal_processing import *
 from .signals import *
-from .spectral import *  # noqa: F403
 from .spectral import autocorrelation as spectral_autocorrelation
+from .spectral import (
+    blackman_tukey,
+    coherence,
+    cross_spectrum,
+    evolutionary_spectrum,
+    lomb_scargle,
+    multitaper_coherence,
+    multitaper_spectrogram,
+    multitaper_spectrum,
+    power_spectrum,
+    spectrogram,
+)
 from .wavelets import *
 
 __all__ = [
@@ -20,6 +31,11 @@ __all__ = [
     "lomb_scargle",
     "spectrogram",
     "coherence",
+    "cross_spectrum",
+    "evolutionary_spectrum",
+    "multitaper_coherence",
+    "multitaper_spectrogram",
+    "multitaper_spectrum",
     # Filtering
     "butter_filter",
     "fir_filter",

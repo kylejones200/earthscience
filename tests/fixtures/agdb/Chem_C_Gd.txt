@@ -1,0 +1,8 @@
+AGDB_ID,SPECIES,DATA_VALUE,UNITS
+1,Cu,45.2,ppm
+2,Cu,120.5,ppm
+3,Cu,8.1,ppm
+4,Cu,67.0,ppm
+1,Zn,90.0,ppm
+2,Zn,200.0,ppm
+4,Zn,55.0,ppm
