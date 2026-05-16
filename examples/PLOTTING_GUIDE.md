@@ -59,7 +59,7 @@ plt.savefig('output.png', dpi=300, bbox_inches='tight')
 For log-scale plots where gridlines help reading values:
 ```python
 clean_plot_style(ax, remove_grid=False)
-ax.grid(True, alpha=0.15, which='both', linewidth=0.5)
+# Gridlines are off by default; pass grid=True to clean_plot_style(ax) when needed
 ```
 
 ### Polar Plots (Rose Diagrams)

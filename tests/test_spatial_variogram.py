@@ -3,7 +3,6 @@ Tests for spatial variogram module
 """
 
 import numpy as np
-import pytest
 
 from earthsciences.spatial import variogram
 
@@ -139,9 +138,6 @@ class TestVariogramModels:
 
     def test_exponential_model_function(self):
         """Test exponential model."""
-        if not hasattr(variogram, "exponential_model"):
-            pytest.skip("exponential_model function not exposed")
-
         h = np.array([0, 1, 5, 10, 20])
         nugget, sill, range_param = 0.0, 1.0, 5.0
 
@@ -153,9 +149,6 @@ class TestVariogramModels:
 
     def test_gaussian_model_function(self):
         """Test Gaussian model."""
-        if not hasattr(variogram, "gaussian_model"):
-            pytest.skip("gaussian_model function not exposed")
-
         h = np.array([0, 1, 5, 10])
         nugget, sill, range_param = 0.0, 1.0, 5.0
 
@@ -163,3 +156,42 @@ class TestVariogramModels:
 
         assert gamma[0] == nugget
         assert np.all(np.diff(gamma) >= 0)
+
+
+class TestVariogramCloud:
+    def test_pair_count_and_golden_semivariances(self):
+        """Three collinear points: γ(h) = 0.5 * (z_i - z_j)² for each pair."""
+        x = np.array([0.0, 1.0, 2.0])
+        y = np.array([0.0, 0.0, 0.0])
+        values = np.array([1.0, 3.0, 5.0])
+        dist, gamma = variogram.variogram_cloud(x, y, values)
+        assert len(dist) == 3
+        assert len(gamma) == 3
+        order = np.argsort(dist)
+        dist = dist[order]
+        gamma = gamma[order]
+        np.testing.assert_allclose(dist, [1.0, 1.0, 2.0], rtol=1e-12)
+        np.testing.assert_allclose(gamma, [2.0, 2.0, 8.0], rtol=1e-12)
+
+    def test_subsample_respects_max_points(self):
+        rng = np.random.default_rng(11)
+        n = 80
+        x = rng.random(n) * 10
+        y = rng.random(n) * 10
+        values = rng.random(n)
+        dist, gamma = variogram.variogram_cloud(x, y, values, max_points=100)
+        assert len(dist) == 100
+        assert len(gamma) == 100
+
+
+class TestAnisotropicVariogram:
+    def test_directional_variograms(self):
+        rng = np.random.default_rng(9)
+        x = rng.random(40) * 10
+        y = rng.random(40) * 10
+        values = x * 2 + y + rng.normal(scale=0.1, size=40)
+        result = variogram.anisotropic_variogram(x, y, values, n_directions=4)
+        assert len(result) == 4
+        for direction in result.values():
+            assert len(direction["lag_dist"]) > 0
+            assert len(direction["gamma"]) == len(direction["lag_dist"])

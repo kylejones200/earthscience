@@ -139,6 +139,34 @@ class TestExtremeValueIndex:
         assert xi > 0  # Pareto has positive tail index
 
 
+class TestReturnPeriodInverse:
+    def test_roundtrip_gumbel(self):
+        params = {"location": 10.0, "scale": 2.0, "shape": 0.0}
+        level = extreme_values.return_level(params, 100.0)
+        period = extreme_values.return_period(params, level)
+        assert period == pytest.approx(100.0, rel=1e-6)
+
+    def test_return_period_above_median(self):
+        params = {"location": 5.0, "scale": 1.0, "shape": 0.2}
+        period = extreme_values.return_period(params, 20.0)
+        assert period > 1.0
+
+
+class TestLMomentsAndPlots:
+    def test_l_moments_on_sample(self):
+        np.random.seed(0)
+        data = np.random.gumbel(5, 1, size=80)
+        lm = extreme_values.l_moments(data)
+        assert "lambda1" in lm
+        assert lm["lambda1"] > 0
+
+    def test_mean_excess_plot_structure(self):
+        np.random.seed(1)
+        data = np.random.exponential(2.0, size=200)
+        result = extreme_values.mean_excess_plot(data)
+        assert len(result["thresholds"]) == len(result["mean_excesses"])
+
+
 class TestReturnLevelPlot:
     """Test return level plot data."""
 

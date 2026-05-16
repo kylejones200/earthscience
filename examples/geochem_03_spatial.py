@@ -26,8 +26,10 @@ from earthsciences.spatial import (
     ordinary_kriging,
 )
 from earthsciences.utils.logging_config import log_section, setup_logging
+from earthsciences.utils.plot_style import use_earthsciences_style
 
 setup_logging()
+use_earthsciences_style()
 logger = logging.getLogger(__name__)
 
 np.random.seed(42)
@@ -222,7 +224,6 @@ scatter = ax1.scatter(
 ax1.set_xlabel("Longitude (°)", fontsize=10)
 ax1.set_ylabel("Latitude (°)", fontsize=10)
 ax1.set_title("Sample Locations (log scale)", fontsize=12, fontweight="bold")
-ax1.grid(True, alpha=0.3)
 cbar1 = plt.colorbar(scatter, ax=ax1)
 cbar1.set_label("Cu (ppm)", rotation=270, labelpad=20)
 
@@ -233,7 +234,6 @@ ax2.scatter(x, y, c="black", s=5, alpha=0.3, marker=".")
 ax2.set_xlabel("Longitude (°)", fontsize=10)
 ax2.set_ylabel("Latitude (°)", fontsize=10)
 ax1.set_title("IDW Interpolation", fontsize=12, fontweight="bold")
-ax2.grid(True, alpha=0.3)
 cbar2 = plt.colorbar(im2, ax=ax2)
 cbar2.set_label("Cu (ppm)", rotation=270, labelpad=20)
 
@@ -244,7 +244,6 @@ ax3.scatter(x, y, c="black", s=5, alpha=0.3, marker=".")
 ax3.set_xlabel("Longitude (°)", fontsize=10)
 ax3.set_ylabel("Latitude (°)", fontsize=10)
 ax3.set_title("Ordinary Kriging", fontsize=12, fontweight="bold")
-ax3.grid(True, alpha=0.3)
 cbar3 = plt.colorbar(im3, ax=ax3)
 cbar3.set_label("Cu (ppm)", rotation=270, labelpad=20)
 
@@ -255,7 +254,6 @@ ax4.scatter(x, y, c="white", s=5, alpha=0.5, marker=".")
 ax4.set_xlabel("Longitude (°)", fontsize=10)
 ax4.set_ylabel("Latitude (°)", fontsize=10)
 ax4.set_title("Kriging Standard Error", fontsize=12, fontweight="bold")
-ax4.grid(True, alpha=0.3)
 cbar4 = plt.colorbar(im4, ax=ax4)
 cbar4.set_label("Std Error (ppm)", rotation=270, labelpad=20)
 
@@ -303,7 +301,6 @@ ax5.set_xlabel("Distance (degrees)", fontsize=10)
 ax5.set_ylabel("Semivariance", fontsize=10)
 ax5.set_title("Experimental Variogram & Model", fontsize=12, fontweight="bold")
 ax5.legend(fontsize=8, loc="lower right")
-ax5.grid(True, alpha=0.3)
 
 # Anomaly map
 ax6 = plt.subplot(2, 3, 6)
@@ -340,7 +337,6 @@ ax6.set_xlabel("Longitude (°)", fontsize=10)
 ax6.set_ylabel("Latitude (°)", fontsize=10)
 ax6.set_title("Geochemical Anomalies (P95 threshold)", fontsize=12, fontweight="bold")
 ax6.legend(fontsize=8, loc="upper right")
-ax6.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.savefig("examples/geochem_03_spatial.png", dpi=150, bbox_inches="tight")

@@ -16,8 +16,10 @@ from earthsciences.multivariate import principal_component_analysis
 from earthsciences.spatial import idw_interpolation
 from earthsciences.statistics import correlation
 from earthsciences.utils.logging_config import log_section, log_step, setup_logging
+from earthsciences.utils.plot_style import use_earthsciences_style
 
 setup_logging()
+use_earthsciences_style()
 logger = logging.getLogger(__name__)
 
 log_section("QUICK START: Geochemistry Analysis")

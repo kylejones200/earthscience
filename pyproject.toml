@@ -82,6 +82,9 @@ docs = [
 [tool.setuptools.packages.find]
 include = ["earthsciences*"]
 
+[tool.setuptools.package-data]
+earthsciences = ["utils/*.mplstyle"]
+
 [tool.uv]
 package = true
 
@@ -177,7 +180,7 @@ ignore = ["E501", "E722", "E731", "E741", "F841"]
 "tests/**" = ["E741"]
 
 [tool.coverage.report]
-fail_under = 35
+fail_under = 42
 precision = 1
 exclude_lines = [
     "pragma: no cover",

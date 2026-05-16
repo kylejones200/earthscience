@@ -24,8 +24,10 @@ from earthsciences.statistics import (
     linear_regression,
 )
 from earthsciences.utils.logging_config import log_block, log_section, setup_logging
+from earthsciences.utils.plot_style import use_earthsciences_style
 
 setup_logging()
+use_earthsciences_style()
 logger = logging.getLogger(__name__)
 
 np.random.seed(42)
@@ -210,7 +212,6 @@ for i, col1 in enumerate(log_cols):
             else:
                 ax.set_xlabel("", fontsize=9)
 
-        ax.grid(True, alpha=0.3)
         if i != n - 1:
             ax.set_xticklabels([])
         if j != 0:

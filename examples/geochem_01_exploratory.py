@@ -20,8 +20,10 @@ import numpy as np
 from earthsciences.data import get_element_stats, load_stream_sediments
 from earthsciences.statistics import descriptive_stats, detect_outliers, test_normality
 from earthsciences.utils.logging_config import log_section, setup_logging
+from earthsciences.utils.plot_style import use_earthsciences_style
 
 setup_logging()
+use_earthsciences_style()
 logger = logging.getLogger(__name__)
 
 np.random.seed(42)
@@ -136,7 +138,6 @@ for idx, element in enumerate(elements):
     ax1.set_xlabel(f"{element} (ppm)", fontsize=10)
     ax1.set_ylabel("Frequency", fontsize=10)
     ax1.set_title(f"{element} Distribution", fontsize=11, fontweight="bold")
-    ax1.grid(True, alpha=0.3)
 
     # Histogram (log scale)
     ax2 = axes[1, idx]
@@ -145,7 +146,6 @@ for idx, element in enumerate(elements):
     ax2.set_ylabel("Frequency", fontsize=10)
     ax2.set_title(f"{element} Distribution (log scale)", fontsize=11, fontweight="bold")
     ax2.set_xscale("log")
-    ax2.grid(True, alpha=0.3, which="both")
 
     # Add statistics text
     stats = get_element_stats(element)

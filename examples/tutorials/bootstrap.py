@@ -10,3 +10,7 @@ TUTORIAL_DIR = Path(__file__).resolve().parent
 
 if str(EXAMPLES_ROOT) not in sys.path:
     sys.path.insert(0, str(EXAMPLES_ROOT))
+
+from earthsciences.utils.plot_style import use_earthsciences_style
+
+use_earthsciences_style()

@@ -3,7 +3,6 @@ Complete geostatistical analysis pipeline.
 """
 
 import logging
-import warnings
 from pathlib import Path
 
 import numpy as np
@@ -448,20 +447,10 @@ class GeostatsPipeline:
 
         from pathlib import Path
 
-        # Import plot_utils if using minimalist style
-        if self.config.visualization.style == "minimalist":
-            try:
-                import sys
+        from earthsciences.utils.plot_style import use_earthsciences_style
 
-                sys.path.insert(0, str(Path(__file__).parent.parent.parent / "examples"))
-                from plot_utils import clean_plot_style  # noqa: F401
-
-                use_clean_style = True
-            except ImportError:
-                use_clean_style = False
-                warnings.warn("Could not import plot_utils for minimalist style")
-        else:
-            use_clean_style = False
+        use_earthsciences_style()
+        use_clean_style = True
 
         output_dir = Path(self.config.project.output_dir).expanduser()
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -532,7 +521,7 @@ class GeostatsPipeline:
         ax.legend(frameon=False, fontsize=11)
 
         if use_clean_style:
-            from plot_utils import clean_plot_style
+            from earthsciences.utils.plot_style import clean_plot_style
 
             clean_plot_style(ax)
 
@@ -581,7 +570,7 @@ class GeostatsPipeline:
         )
 
         if use_clean_style:
-            from plot_utils import clean_plot_style
+            from earthsciences.utils.plot_style import clean_plot_style
 
             clean_plot_style(ax)
 
@@ -623,7 +612,7 @@ class GeostatsPipeline:
         ax.set_title("Kriging Variance (Uncertainty) Map", fontsize=13, fontweight="bold", pad=15)
 
         if use_clean_style:
-            from plot_utils import clean_plot_style
+            from earthsciences.utils.plot_style import clean_plot_style
 
             clean_plot_style(ax)
 
@@ -670,7 +659,7 @@ class GeostatsPipeline:
         ax.legend(frameon=False, fontsize=11)
 
         if use_clean_style:
-            from plot_utils import clean_plot_style
+            from earthsciences.utils.plot_style import clean_plot_style
 
             clean_plot_style(ax)
 
@@ -714,7 +703,7 @@ class GeostatsPipeline:
         ax.legend(frameon=False, fontsize=11)
 
         if use_clean_style:
-            from plot_utils import clean_plot_style
+            from earthsciences.utils.plot_style import clean_plot_style
 
             clean_plot_style(ax)
 

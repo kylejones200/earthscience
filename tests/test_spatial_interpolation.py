@@ -3,7 +3,6 @@ Tests for spatial interpolation module
 """
 
 import numpy as np
-import pytest
 
 from earthsciences.spatial import interpolation
 
@@ -97,9 +96,6 @@ class TestRBFInterpolation:
 
     def test_basic_functionality(self):
         """Test RBF interpolation."""
-        if not hasattr(interpolation, "rbf_interpolation"):
-            pytest.skip("RBF interpolation not implemented")
-
         np.random.seed(42)
         x = np.random.rand(20) * 10
         y = np.random.rand(20) * 10
@@ -114,9 +110,6 @@ class TestRBFInterpolation:
 
     def test_different_kernels(self):
         """Test different RBF kernels."""
-        if not hasattr(interpolation, "rbf_interpolation"):
-            pytest.skip("RBF interpolation not implemented")
-
         x = np.array([0, 5, 10])
         y = np.array([0, 5, 10])
         values = np.array([1, 2, 3])

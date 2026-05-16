@@ -3,7 +3,6 @@ Tests for directional spherical statistics module
 """
 
 import numpy as np
-import pytest
 
 from earthsciences.directional import spherical
 
@@ -38,9 +37,6 @@ class TestResultantLength:
 
     def test_concentrated_data(self):
         """Test resultant length for concentrated data."""
-        if not hasattr(spherical, "resultant_length"):
-            pytest.skip("resultant_length not implemented")
-
         theta = np.random.randn(50) * 0.1 + np.pi / 4
         phi = np.random.randn(50) * 0.1 + np.pi / 2
 

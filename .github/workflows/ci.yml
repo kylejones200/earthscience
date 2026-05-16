@@ -25,7 +25,13 @@ jobs:
       run: uv sync --extra dev --frozen
 
     - name: Run tests
-      run: uv run pytest tests/ -v --tb=short --cov=earthsciences --cov-report=term-missing --cov-fail-under=35
+      run: uv run pytest tests/ -v --tb=short --cov=earthsciences --cov-report=term-missing --cov-fail-under=42
+
+    - name: Core package coverage (statistics, spatial, geochronology, data)
+      run: |
+        uv run coverage report \
+          --include="earthsciences/statistics/*,earthsciences/spatial/*,earthsciences/geochronology/*,earthsciences/data/*" \
+          --fail-under=55
 
     - name: Lint
       run: |

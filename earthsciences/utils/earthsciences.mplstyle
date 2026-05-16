@@ -1,0 +1,13 @@
+# Default earthsciences figure style — minimal chart junk
+axes.grid: false
+axes.spines.top: false
+axes.spines.right: false
+xtick.top: false
+ytick.right: false
+axes.linewidth: 0.8
+grid.linewidth: 0.5
+font.size: 10
+axes.titlesize: 11
+axes.labelsize: 10
+figure.facecolor: white
+axes.facecolor: white

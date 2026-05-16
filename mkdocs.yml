@@ -36,6 +36,10 @@ nav:
       - spatial: api/spatial.md
       - timeseries: api/timeseries.md
       - geochronology: api/geochronology.md
+      - data: api/data.md
+      - geophysics: api/geophysics.md
+      - workflows: api/workflows.md
+      - imaging: api/imaging.md
       - multivariate: api/multivariate.md
       - directional: api/directional.md
 

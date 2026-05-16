@@ -144,8 +144,10 @@ def variogram_cloud(
     points = np.column_stack([x, y])
     distances = pdist(points)
 
-    diff_values = pdist(values[:, np.newaxis], lambda u, v: (u - v) ** 2)
-    semivariances = 0.5 * diff_values
+    # Half the squared value difference for each pair (Matheron semivariance)
+    values = values.ravel()
+    squared_diffs = pdist(values.reshape(-1, 1), metric="sqeuclidean")
+    semivariances = 0.5 * squared_diffs
 
     # Subsample if too many points
     if len(distances) > max_points:

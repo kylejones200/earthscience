@@ -43,5 +43,6 @@ __all__ = [
     # Extreme values
     "fit_gev",
     "return_level",
+    "gev_return_level",
     "fit_gpd",
 ]

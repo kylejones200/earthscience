@@ -205,7 +205,6 @@ ax2.set_title("Power Spectrum: Power vs Period (years)", fontsize=13, fontweight
 ax2.legend(frameon=False, fontsize=11)
 ax2.set_xlim(0.5, 50)
 clean_plot_style(ax2, remove_grid=False)
-ax2.grid(True, alpha=0.15, which="both", linewidth=0.5)
 
 plt.tight_layout()
 plt.savefig(TUTORIAL_DIR / "07_timeseries_spectral.png", dpi=300, bbox_inches="tight")

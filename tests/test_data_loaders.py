@@ -63,3 +63,12 @@ class TestElevationLoaders:
         missing = tmp_path / "empty_gtopo"
         with pytest.raises(FileNotFoundError, match="GTOPO30"):
             loaders.load_gtopo30((-125, 30, -115, 40), data_dir=str(missing))
+
+    def test_get_tile_list_srtm_bbox(self):
+        tiles = loaders.get_tile_list("srtm", (-122.5, 37.2, -121.1, 38.4))
+        assert "N37W123" in tiles
+        assert len(tiles) >= 2
+
+    def test_download_tile_unknown_dataset(self):
+        with pytest.raises(ValueError, match="Unknown dataset"):
+            loaders.download_tile("not_a_dataset", "N37W122")

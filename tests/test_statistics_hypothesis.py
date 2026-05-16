@@ -137,6 +137,44 @@ class TestWilcoxonTest:
         assert "p_value" in result or "pvalue" in result
 
 
+class TestFTest:
+    def test_equal_variances(self):
+        np.random.seed(10)
+        a = np.random.randn(30)
+        b = np.random.randn(25) * 1.05
+        result = hypothesis_tests.f_test(a, b)
+        assert "statistic" in result
+        assert "p_value" in result or "pvalue" in result
+
+
+class TestCorrelationSignificance:
+    def test_strong_correlation_significant(self):
+        p = hypothesis_tests.correlation_significance(0.85, n=50)
+        assert p < 0.05
+
+    def test_zero_correlation_not_significant(self):
+        p = hypothesis_tests.correlation_significance(0.02, n=30)
+        assert p > 0.05
+
+
+class TestAnsariBradley:
+    def test_scale_difference(self):
+        np.random.seed(11)
+        x = np.random.randn(40)
+        y = np.random.randn(40) * 2.5
+        result = hypothesis_tests.ansari_bradley_test(x, y)
+        assert "statistic" in result
+        assert "p_value" in result or "pvalue" in result
+
+
+class TestGenericTTest:
+    def test_t_test_one_sample(self):
+        data = np.random.default_rng(12).normal(loc=3.0, scale=0.5, size=25)
+        result = hypothesis_tests.t_test(data, mu=3.0)
+        assert "p_value" in result
+        assert "dof" in result
+
+
 class TestKruskalWallis:
     """Test Kruskal-Wallis test."""
 

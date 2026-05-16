@@ -24,8 +24,10 @@ from earthsciences.geochronology import (
     isochron_dating,
 )
 from earthsciences.utils.logging_config import log_block, log_section, setup_logging
+from earthsciences.utils.plot_style import use_earthsciences_style
 
 setup_logging()
+use_earthsciences_style()
 logger = logging.getLogger(__name__)
 
 OUTPUT_DIR = Path(__file__).resolve().parent

@@ -25,8 +25,10 @@ from earthsciences.multivariate import (
     principal_component_analysis,
 )
 from earthsciences.utils.logging_config import log_block, log_section, setup_logging
+from earthsciences.utils.plot_style import use_earthsciences_style
 
 setup_logging()
+use_earthsciences_style()
 logger = logging.getLogger(__name__)
 
 np.random.seed(42)
@@ -178,7 +180,6 @@ ax1.set_xlabel("Principal Component", fontsize=10)
 ax1.set_ylabel("Variance Explained (%)", fontsize=10)
 ax1.set_title("Scree Plot", fontsize=12, fontweight="bold")
 ax1.legend(fontsize=9)
-ax1.grid(True, alpha=0.3, axis="y")
 
 # PCA Biplot
 ax2 = plt.subplot(2, 3, 2)
@@ -224,7 +225,6 @@ for i, elem in enumerate(elements):
 ax2.set_xlabel(f"PC1 ({100*var_explained[0]:.1f}% var)", fontsize=10)
 ax2.set_ylabel(f"PC2 ({100*var_explained[1]:.1f}% var)", fontsize=10)
 ax2.set_title("PCA Biplot (colored by cluster)", fontsize=12, fontweight="bold")
-ax2.grid(True, alpha=0.3)
 ax2.axhline(y=0, color="k", linestyle="--", alpha=0.3)
 ax2.axvline(x=0, color="k", linestyle="--", alpha=0.3)
 
